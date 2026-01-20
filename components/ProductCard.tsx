@@ -1,0 +1,76 @@
+
+import React from 'react';
+import { Product } from '../types';
+import { useApp } from '../AppContext';
+
+interface Props {
+  product: Product;
+}
+
+const ProductCard: React.FC<Props> = ({ product }) => {
+  const { lang, cart, addToCart, updateQuantity, removeFromCart } = useApp();
+  const cartItem = cart.find(item => item.id === product.id);
+
+  const name = lang === 'en' ? product.nameEn : product.nameAr;
+
+  return (
+    <div className="bg-white rounded-[24px] shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden group border border-purple-50 flex flex-col h-full">
+      <div className="relative aspect-square overflow-hidden bg-gray-50">
+        <img 
+          src={product.image} 
+          alt={name} 
+          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
+        />
+        <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider text-purple-600 shadow-sm">
+          {product.category}
+        </div>
+      </div>
+      
+      <div className="p-5 flex flex-col flex-grow">
+        <h3 className="text-lg font-bold text-gray-900 mb-1 line-clamp-1">{name}</h3>
+        <p className="text-purple-600 font-black text-xl mb-5">{product.price} <span className="text-sm font-medium">AED</span></p>
+        
+        <div className="mt-auto">
+          {!cartItem ? (
+            <button 
+              onClick={() => addToCart(product)}
+              className="w-full bg-purple-600 hover:bg-purple-700 text-white py-3.5 rounded-2xl font-bold transition-all shadow-md active:scale-95 flex items-center justify-center gap-2"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M12 4v16m8-8H4"/></svg>
+              {lang === 'en' ? 'Add to Cart' : 'أضف للسلة'}
+            </button>
+          ) : (
+            <div className="flex items-center justify-between bg-purple-50 rounded-2xl p-1.5 border border-purple-100 animate-scale-up">
+              {cartItem.quantity === 1 ? (
+                <button 
+                  onClick={() => removeFromCart(product.id)}
+                  className="p-2.5 text-red-500 hover:bg-red-50 rounded-xl transition-colors"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                </button>
+              ) : (
+                <button 
+                  onClick={() => updateQuantity(product.id, -1)}
+                  className="p-2.5 text-purple-600 hover:bg-purple-100 rounded-xl transition-colors font-black text-lg"
+                >
+                  -
+                </button>
+              )}
+              
+              <span className="font-black text-purple-900 text-lg">{cartItem.quantity}</span>
+              
+              <button 
+                onClick={() => updateQuantity(product.id, 1)}
+                className="p-2.5 text-purple-600 hover:bg-purple-100 rounded-xl transition-colors font-black text-lg"
+              >
+                +
+              </button>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ProductCard;
