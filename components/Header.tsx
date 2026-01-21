@@ -49,9 +49,9 @@ const Header: React.FC = () => {
         <Link to="/" className="flex items-center gap-3 group">
           <div className={`transition-all duration-500 overflow-hidden ${isSolid ? 'w-10 h-10' : 'w-12 h-12'}`}>
             <img 
-              src={LOGO_URL} 
-              alt="Zari Logo" 
-              className={`w-full h-full object-contain transition-all duration-500 ${!isSolid ? 'brightness-0 invert' : ''}`} 
+            src={LOGO_URL} 
+            alt="Zari Logo" 
+            className="w-full h-full object-contain" 
             />
           </div>
           <span className={`text-3xl font-black tracking-tighter transition-colors duration-500 ${isSolid ? 'text-purple-600' : 'text-white'}`}>Zari</span>
