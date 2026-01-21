@@ -11,6 +11,9 @@ import StoreDetail from './pages/StoreDetail';
 import Cart from './pages/Cart';
 import Decryptor from './pages/Decryptor';
 
+<main className="flex-grow">
+  <Decryptor /> 
+</main>
 const App: React.FC = () => {
   return (
     <AppProvider>
