@@ -5,12 +5,13 @@ import { getAuth } from "firebase/auth";
 
 // Replace these with your project's actual Firebase configuration
 const firebaseConfig = {
-  apiKey: "YOUR_FIREBASE_API_KEY",
-  authDomain: "your-project-id.firebaseapp.com",
-  projectId: "your-project-id",
-  storageBucket: "your-project-id.firebasestorage.app",
-  messagingSenderId: "your-sender-id",
-  appId: "your-app-id"
+  apiKey: "AIzaSyCo5FPjk9q9U__7KMiGPDsDYo4_lxGXKIY",
+  authDomain: "zari-perfumes.firebaseapp.com",
+  projectId: "zari-perfumes",
+  storageBucket: "zari-perfumes.firebasestorage.app",
+  messagingSenderId: "392420202064",
+  appId: "1:392420202064:web:c3ff36213e95786cbee355",
+  measurementId: "G-60V8L157ZF"
 };
 
 // Initialize Firebase with a check for existing apps to prevent the "no exported member" error 

@@ -6,7 +6,7 @@ import { UI_STRINGS } from '../translations';
 import { STORES } from '../data';
 
 // Path to your custom logo image in the images folder
-const LOGO_URL = "images/logo.svg";
+const LOGO_URL = "logo.png";
 
 const Footer: React.FC = () => {
   const { lang } = useApp();

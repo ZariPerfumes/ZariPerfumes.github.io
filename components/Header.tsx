@@ -6,7 +6,7 @@ import { UI_STRINGS } from '../translations';
 import { PRODUCTS } from '../data';
 
 // Path to your custom logo image in the images folder
-const LOGO_URL = "images/logo.svg"; 
+const LOGO_URL = "logo.png"; 
 
 const Header: React.FC = () => {
   const { lang, setLang, cart, isSearchOpen, setIsSearchOpen, searchQuery, setSearchQuery } = useApp();
