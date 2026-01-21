@@ -4,9 +4,9 @@ import { Link } from 'react-router-dom';
 import { useApp } from '../AppContext';
 import { UI_STRINGS } from '../translations';
 import { STORES } from '../data';
+import logoImg from './logo.png';
 
-// Path to your custom logo image in the images folder
-const LOGO_URL = "logo.png";
+const LOGO_URL = logoImg;
 
 const Footer: React.FC = () => {
   const { lang } = useApp();

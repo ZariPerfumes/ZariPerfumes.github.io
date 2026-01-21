@@ -4,9 +4,9 @@ import { Link, useLocation } from 'react-router-dom';
 import { useApp } from '../AppContext';
 import { UI_STRINGS } from '../translations';
 import { PRODUCTS } from '../data';
+import logoImg from './logo.png';
 
-// Path to your custom logo image in the images folder
-const LOGO_URL = "logo.png"; 
+const LOGO_URL = logoImg;
 
 const Header: React.FC = () => {
   const { lang, setLang, cart, isSearchOpen, setIsSearchOpen, searchQuery, setSearchQuery } = useApp();
@@ -49,9 +49,9 @@ const Header: React.FC = () => {
         <Link to="/" className="flex items-center gap-3 group">
           <div className={`transition-all duration-500 overflow-hidden ${isSolid ? 'w-10 h-10' : 'w-12 h-12'}`}>
             <img 
-              src={LOGO_URL} 
-              alt="Zari Logo" 
-              className={`w-full h-full object-contain transition-all duration-500 ${!isSolid ? 'brightness-0 invert' : ''}`} 
+            src={LOGO_URL} 
+            alt="Zari Logo" 
+            className="w-full h-full object-contain" 
             />
           </div>
           <span className={`text-3xl font-black tracking-tighter transition-colors duration-500 ${isSolid ? 'text-purple-600' : 'text-white'}`}>Zari</span>
