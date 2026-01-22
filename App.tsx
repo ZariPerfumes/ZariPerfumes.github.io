@@ -27,7 +27,7 @@ const App: React.FC = () => {
               <Route path="/stores" element={<Stores />} />
               <Route path="/stores/:id" element={<StoreDetail />} />
               <Route path="/cart" element={<Cart />} />
-              <Route path="/admin-zari-decrypt" element={<Decryptor />} />
+              <Route path="/decryptor" element={<Decryptor />} />
             </Routes>
           </main>
           <Footer />
