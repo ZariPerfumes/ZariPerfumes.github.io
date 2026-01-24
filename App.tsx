@@ -10,6 +10,7 @@ import Stores from './pages/Stores';
 import StoreDetail from './pages/StoreDetail';
 import Cart from './pages/Cart';
 import Decryptor from './pages/Decryptor';
+import 'leaflet/dist/leaflet.css';
 
 <main className="flex-grow">
   <Decryptor /> 

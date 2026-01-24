@@ -62,12 +62,33 @@ export const WORKSHOP: Workshop = {
   image: "images/workshop.jpg"
 };
 
-export const DELIVERY_COSTS: DeliveryCost[] = [
-  { emirate: 'Dubai', cities: { 'Deira': 30, 'Bur Dubai': 30, 'JLT': 40, 'Downtown': 35 } },
-  { emirate: 'Abu Dhabi', cities: { 'Downtown': 40, 'Mussafah': 45, 'Al Ain': 50 } },
-  { emirate: 'Sharjah', cities: { 'Al Majaz': 25, 'Al Nahda': 25, 'Muwailih': 30 } },
-  { emirate: 'Ajman', cities: { 'Al Nuaimiya': 15, 'Al Rawda': 15, 'Makhriz': 0 } },
-  { emirate: 'Umm Al Quwain', cities: { 'City Center': 35 } },
-  { emirate: 'Ras Al Khaimah', cities: { 'City Center': 45, 'Al Hamra': 50 } },
-  { emirate: 'Fujairah', cities: { 'City Center': 45 } },
+export const DELIVERY_COSTS = [
+  {
+    emirate: 'Dubai',
+    cities: { 'Deira': 30, 'Bur Dubai': 30, 'Jumeirah': 35, 'Downtown': 35, 'Al Barsha': 35, 'Mirdif': 35, 'JLT/Marina': 40, 'Jebel Ali': 45 }
+  },
+  {
+    emirate: 'Abu Dhabi',
+    cities: { 'City Center': 40, 'Khalifa City': 45, 'Yas Island': 45, 'Mussafah': 45, 'Mohammed Bin Zayed City': 45, 'Al Ain City': 50 }
+  },
+  {
+    emirate: 'Sharjah',
+    cities: { 'Al Majaz': 25, 'Al Khan': 25, 'Al Nahda': 25, 'Muwailih': 30, 'University City': 30, 'Khor Fakkan': 50, 'Kalba': 50 }
+  },
+  {
+    emirate: 'Ajman',
+    cities: { 'Al Nuaimiya': 20, 'Al Rawda': 20, 'Al Jurf': 20, 'Makhriz (Store)': 0, 'Hamriya': 30 }
+  },
+  {
+    emirate: 'Umm Al Quwain',
+    cities: { 'City Center': 35, 'Al Salamah': 35, 'Falaj Al Mualla': 45 }
+  },
+  {
+    emirate: 'Ras Al Khaimah',
+    cities: { 'City Center': 40, 'Al Hamra': 45, 'Mina Al Arab': 45, 'Masafi': 50 }
+  },
+  {
+    emirate: 'Fujairah',
+    cities: { 'City Center': 40, 'Dibba': 50, 'Al Aqah': 55 }
+  }
 ];

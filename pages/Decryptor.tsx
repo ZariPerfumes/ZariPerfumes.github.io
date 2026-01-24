@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { decryptReceipt } from '../utils/encryption';
 
@@ -21,6 +20,21 @@ const Decryptor: React.FC = () => {
     const result = decryptReceipt(encryptedInput);
     setDecryptedOutput(result);
   };
+
+  // Improved extraction logic
+  const extractMapLink = (text: string) => {
+    // Looks for any URL containing google.com/maps or our specific generated link
+    const match = text.match(/https?:\/\/[^\s\n]+google[^\s\n]+/i);
+    return match ? match[0] : null;
+  };
+
+  const extractPhone = (text: string) => {
+    const match = text.match(/Phone:\s*(\+?[0-9\s-]+)/i);
+    return match ? match[1].trim() : null;
+  };
+
+  const mapLink = extractMapLink(decryptedOutput);
+  const phoneNum = extractPhone(decryptedOutput);
 
   if (!isAuthorized) {
     return (
@@ -70,16 +84,38 @@ const Decryptor: React.FC = () => {
           {decryptedOutput && (
             <div className="animate-scale-up mt-10">
               <label className="block font-bold text-gray-500 mb-2">Decrypted Content</label>
-              <div className="bg-gray-900 text-green-400 p-8 rounded-3xl font-mono whitespace-pre-wrap relative overflow-hidden">
+              <div className="bg-gray-900 text-green-400 p-8 rounded-3xl font-mono whitespace-pre-wrap relative overflow-hidden flex flex-col">
                 {decryptedOutput}
-                <a 
-                  href="https://maps.app.goo.gl/wFuaKvBwv1ArSuis9" 
-                  target="_blank"
-                  className="mt-6 inline-flex items-center gap-2 bg-purple-600 text-white px-6 py-2 rounded-xl text-sm font-bold no-underline hover:bg-purple-500"
-                >
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/></svg>
-                  Open Delivery Location
-                </a>
+                
+                <div className="mt-8 flex flex-wrap gap-4">
+                  {mapLink && (
+                    <a 
+                      href={mapLink} 
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 bg-purple-600 text-white px-6 py-3 rounded-xl text-sm font-black no-underline hover:bg-purple-500 transition-colors"
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/></svg>
+                      Open Delivery Location
+                    </a>
+                  )}
+
+                  {phoneNum && (
+                    <button 
+                      onClick={(e) => {
+                        navigator.clipboard.writeText(phoneNum);
+                        const btn = e.currentTarget;
+                        const originalText = btn.innerHTML;
+                        btn.innerHTML = "✓ COPIED PHONE";
+                        setTimeout(() => btn.innerHTML = originalText, 2000);
+                      }}
+                      className="inline-flex items-center gap-2 bg-green-600 text-white px-6 py-3 rounded-xl text-sm font-black hover:bg-green-500 transition-colors"
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+                      Copy Phone Number
+                    </button>
+                  )}
+                </div>
               </div>
             </div>
           )}
