@@ -29,12 +29,13 @@ const Header: React.FC = () => {
   const isHome = location.pathname === '/';
   // The header should be solid if we are NOT on home, OR if we have scrolled on home.
   const isSolid = !isHome || isScrolled;
-
+  
+  const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
   const navItems = [
     { label: t('home'), path: '/' },
     { label: t('explore'), path: '/explore' },
     { label: t('stores'), path: '/stores' },
-    { label: t('cart'), path: '/cart', count: cart.length }
+    { label: t('cart'), path: '/cart', count: totalItems }
   ];
 
   const filteredProducts = searchQuery.trim() === '' ? [] : PRODUCTS.filter(p => 

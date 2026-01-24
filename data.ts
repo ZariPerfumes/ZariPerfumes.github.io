@@ -78,7 +78,13 @@ export const DELIVERY_COSTS = [
       'Business Bay - الخليج التجاري': 0, 'Damac Hills - داماك هيلز': 0, 'Deira - ديرة': 0, 'Downtown - وسط المدينة': 0,
       'Dubai Marina - دبي مارينا': 0, 'Dubai Sports City - مدينة دبي الرياضية': 0, 'International City - المدينة العالمية': 0,
       'JLT - أبراج بحيرات الجميرا': 0, 'JVC - قرية جميرا الدائرية': 0, 'JVT - مثلث قرية جميرا': 0, 'Jumeirah 1 - جميرا ١': 0, 'Jumeirah 2 - جميرا ٢': 0, 'Jumeirah 3 - جميرا ٣': 0,
-      'Mirdif - مردف': 0, 'Motor City - موتور سيتي': 0, 'Palm Jumeirah - نخلة جميرا': 0, 'Silicon Oasis - واحة السليكون': 0
+      'Mirdif - مردف': 0, 'Motor City - موتور سيتي': 0, 'Palm Jumeirah - نخلة جميرا': 0, 'Silicon Oasis - واحة السليكون': 0,
+      'Al Awir - العوير': 0, 'Al Furjan - الفرجان': 0, 'Al Jaddaf - الجداف': 0, 'Al Karama - الكرامة': 0, 'Al Mankhool - المنخول': 0,
+      'Al Mizhar - المزهر': 0, 'Al Rashidiya - الراشدية': 0, 'Al Satwa - السطوة': 0, 'Al Sufouh - الصفوح': 0, 'Al Twar - الطوار': 0,
+      'Arabian Ranches - المرابع العربية': 0, 'Bur Dubai - بر دبي': 0, 'Discovery Gardens - ديسكفري جاردنز': 0, 'Dubai Hills - دبي هيلز': 0,
+      'Dubai Investment Park - مجمع دبي للاستثمار': 0, 'Dubai Land - دبي لاند': 0, 'Dubai South - دبي الجنوب': 0, 'Hatta - حتا': 0,
+      'Jebel Ali - جبل علي': 0, 'Jumeirah Islands - جزر الجميرا': 0, 'Jumeirah Park - جميرا بارك': 0, 'Mudon - مدن': 0,
+      'Nad Al Sheba - ند الشبا': 0, 'Oud Metha - عود ميثاء': 0, 'Remraam - رمرام': 0, 'The Greens - ذا جرينز': 0, 'Town Square - تاون سكوير': 0
     }
   },
   {
@@ -89,7 +95,10 @@ export const DELIVERY_COSTS = [
       'Al Reem Island - جزيرة الريم': 0, 'Al Saadiyat Island - جزيرة السعديات': 0, 'Al Shahama - الشهامة': 0,
       'Baniyas - بني ياس': 0, 'City Center - وسط المدينة': 0, 'Khalifa City - مدينة خليفة': 0,
       'Mohammed Bin Zayed City - مدينة محمد بن زايد': 0, 'Mussafah Industrial - مصفح الصناعية': 0,
-      'Shakhbout City - مدينة شخبوط': 0, 'Yas Island - جزيرة ياس': 0
+      'Shakhbout City - مدينة شخبوط': 0, 'Yas Island - جزيرة ياس': 0,
+      'Al Ain - العين': 0, 'Al Bateen - البطين': 0, 'Al Dhafra - الظفرة': 0, 'Al Maryah Island - جزيرة ماريا': 0,
+      'Al Raha - الراحة': 0, 'Al Reef - الريف': 0, 'Al Shamkha - الشامخة': 0, 'Ghayathi - غياثي': 0,
+      'Liwa - ليوا': 0, 'Madinat Zayed - مدينة زايد': 0, 'Masdar City - مدينة مصدر': 0, 'Ruwais - الرويس': 0, 'Sila - السلع': 0
     }
   },
   {
@@ -99,7 +108,9 @@ export const DELIVERY_COSTS = [
       'Al Gharayen - القرائن': 0, 'Aljada - الجادة': 0, 'Al Khan - الخان': 0, 'Al Majaz 1 - المجاز ١': 0, 'Al Majaz 2 - المجاز ٢': 0,
       'Al Majaz 3 - المجاز ٣': 0, 'Al Nahda - النهضة': 0, 'Al Noof - النوف': 0, 'Al Rahmaniya 1 - الرحمانية ١': 0,
       'Al Rahmaniya 2 - الرحمانية ٢': 0, 'Al Rahmaniya 3 - الرحمانية ٣': 0, 'Al Suyoh - السيوح': 0, 'Dhaid - الذيد': 0,
-      'Kalba - كلباء': 0, 'Khor Fakkan - خورفكان': 0, 'Muwailih - مويلح': 0, 'University City - المدينة الجامعية': 0
+      'Kalba - كلباء': 0, 'Khor Fakkan - خورفكان': 0, 'Muwailih - مويلح': 0, 'University City - المدينة الجامعية': 0,
+      'Al Heera - الحيرة': 0, 'Al Layyeh - اللية': 0, 'Al Mamzar - الممزر': 0, 'Al Mirgab - المرقاب': 0, 'Al Qasimia - القاسمية': 0,
+      'Al Ramla - الرملة': 0, 'Al Taawun - التعاون': 0, 'Al Tai - الطي': 0, 'Dibba Al Hisn - دبا الحصن': 0, 'Mleiha - مليحة': 0
     }
   },
   {
@@ -112,7 +123,9 @@ export const DELIVERY_COSTS = [
       'Al Nuaimiya 1 - النعيمية ١': 0, 'Al Nuaimiya 2 - النعيمية ٢': 0, 'Al Nuaimiya 3 - النعيمية ٣': 0,
       'Al Rashidiya 1 - الراشدية ١': 0, 'Al Rashidiya 2 - الراشدية ٢': 0,
       'Al Rawda 1 - الروضة ١': 0, 'Al Rawda 2 - الروضة ٢': 0, 'Al Rawda 3 - الروضة ٣': 0,
-      'Al Yasmeen - الياسمين': 0, 'Al Zorah - الزورا': 0, 'Garden City - جاردن سيتي': 0
+      'Al Yasmeen - الياسمين': 0, 'Al Zorah - الزورا': 0, 'Garden City - جاردن سيتي': 0,
+      'Al Bustan - البستان': 0, 'Al Hamriya - الحمرية': 0, 'Al Manama - المنامة': 0, 'Al Nekhailat - النخيلات': 0,
+      'Al Rumailah - الرميلة': 0, 'Emirates City - مدينة الإمارات': 0, 'Masfout - مصفوت': 0
     }
   },
   {
@@ -120,7 +133,8 @@ export const DELIVERY_COSTS = [
     emirateAr: 'أم القيوين',
     cities: {
       'Al Ramlah - الرملة': 0, 'Al Raudah - الروضة': 0, 'Al Salamah 1 - السلامة ١': 0, 'Al Salamah 2 - السلامة ٢': 0,
-      'Al Salamah 3 - السلامة ٣': 0, 'Falaj Al Mualla - فلج المعلا': 0, 'UAQ Marina - مارينا أم القيوين': 0
+      'Al Salamah 3 - السلامة ٣': 0, 'Falaj Al Mualla - فلج المعلا': 0, 'UAQ Marina - مارينا أم القيوين': 0,
+      'Al Adhiya - العذيبة': 0, 'Al Haditha - الحديثة': 0, 'Al Humrah - الحمرة': 0, 'Al Raas - الرأس': 0, 'Old Town - المدينة القديمة': 0
     }
   },
   {
@@ -129,7 +143,9 @@ export const DELIVERY_COSTS = [
     cities: {
       'Al Dhait North - الظيت شمال': 0, 'Al Dhait South - الظيت جنوب': 0, 'Al Hamra Village - قرية الحمراء': 0,
       'Al Jazeera Al Hamra - الجزيرة الحمراء': 0, 'Al Marjan Island - جزيرة المرجان': 0, 'Al Nakheel - النخيل': 0,
-      'Masafi - مسافي': 0, 'Mina Al Arab - مينا العرب': 0
+      'Masafi - مسافي': 0, 'Mina Al Arab - مينا العرب': 0,
+      'Al Rams - الرمس': 0, 'Al Refaa - الرفاعة': 0, 'Al Shamal - الشمال': 0, 'Digdaga - دقداقة': 0, 'Ghalilah - غليلة': 0,
+      'Khatt - خت': 0, 'Ras Al Khaimah City - مدينة رأس الخيمة': 0, 'Shaam - شعم': 0
     }
   },
   {
@@ -137,7 +153,8 @@ export const DELIVERY_COSTS = [
     emirateAr: 'الفجيرة',
     cities: {
       'Al Aqah - العقة': 0, 'Al Faseel - الفصيل': 0, 'Dibba - دبا': 0, 'Fujairah City - مدينة الفجيرة': 0,
-      'Masafi - مسافي': 0, 'Mirbah - مربح': 0, 'Qidfa - قدفع': 0
+      'Masafi - مسافي': 0, 'Mirbah - مربح': 0, 'Qidfa - قدفع': 0,
+      'Al Bidiyah - البدية': 0, 'Al Hayl - الحيل': 0, 'Al Qurayya - القرية': 0, 'Al Siji - السيجي': 0, 'Dadna - ددنا': 0
     }
   }
 ];
