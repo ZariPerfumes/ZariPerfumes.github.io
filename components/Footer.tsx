@@ -1,10 +1,9 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useApp } from '../AppContext';
 import { UI_STRINGS } from '../translations';
 import { STORES } from '../data';
-import logoImg from './logo.png';
+import logoImg from '../logo.png';
 
 const LOGO_URL = logoImg;
 
@@ -13,7 +12,7 @@ const Footer: React.FC = () => {
   const t = (key: string) => UI_STRINGS[key]?.[lang] || key;
 
   return (
-    <footer className="bg-purple-900 text-white pt-16 pb-8">
+    <footer className="bg-purple-900 text-white pt-16 pb-8 text-left" dir="ltr">
       <div className="container mx-auto px-4">
         {/* Licensing */}
         <div className="text-center mb-12">
@@ -54,20 +53,20 @@ const Footer: React.FC = () => {
             <h4 className="text-lg font-black uppercase tracking-widest text-purple-300">{t('contactUs')}</h4>
             <div className="space-y-3">
               <a href="https://instagram.com/zari.aj25" target="_blank" className="flex items-center gap-3 text-white/70 hover:text-white transition-all font-medium">
-                <img src="images/icons/instagram.svg" className="w-5 h-5 invert" alt="insta" />
-                @zari.aj25
+                <img src="instagram.png" className="w-5 h-5" alt="insta" />
+                <span>@zari.aj25</span>
               </a>
-              <a href="#" className="flex items-center gap-3 text-white/70 hover:text-white transition-all font-medium">
-                <img src="images/icons/tiktok.svg" className="w-5 h-5 invert" alt="tiktok" />
-                @zari.aj25
+              <a href="https://tiktok.com/@zari.aj25" target="_blank" className="flex items-center gap-3 text-white/70 hover:text-white transition-all font-medium">
+                <img src="tiktok.png" className="w-5 h-5" alt="tiktok" />
+                <span>@zari.aj25</span>
+              </a>
+              <a href="http://snapchat.com/@zari.aj25" target="_blank" className="flex items-center gap-3 text-white/70 hover:text-white transition-all font-medium">
+                <img src="snapchat.png" className="w-5 h-5" alt="snap" />
+                <span>@zari.aj25</span>
               </a>
               <a href="https://wa.me/971588537024" target="_blank" className="flex items-center gap-3 text-white/70 hover:text-white transition-all font-medium">
-                <img src="images/icons/whatsapp.svg" className="w-5 h-5 invert" alt="wa" />
-                +971 58 853 7024
-              </a>
-              <a href="https://maps.app.goo.gl/wFuaKvBwv1ArSuis9" target="_blank" className="flex items-center gap-3 text-white/70 hover:text-white transition-all font-medium">
-                <img src="images/icons/location.svg" className="w-5 h-5 invert" alt="loc" />
-                Ajman, UAE
+                <img src="whatsapp.png" className="w-5 h-5" alt="wa" />
+                <span dir="ltr">+971 58 853 7024</span>
               </a>
             </div>
           </div>
@@ -75,15 +74,18 @@ const Footer: React.FC = () => {
           {/* Social Icons Grid */}
           <div className="space-y-4">
             <h4 className="text-lg font-black uppercase tracking-widest text-purple-300">{t('followUs')}</h4>
-            <div className="flex gap-4">
+            <div className="flex flex-wrap gap-4">
                 <a href="https://instagram.com/zari.aj25" target="_blank" className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center hover:bg-purple-600 transition-all shadow-lg active:scale-90">
-                    <img src="images/icons/instagram.svg" className="w-6 h-6 invert" alt="insta" />
+                    <img src="instagram.png" className="w-6 h-6" alt="insta" />
                 </a>
-                <a href="#" className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center hover:bg-purple-600 transition-all shadow-lg active:scale-90">
-                    <img src="images/icons/tiktok.svg" className="w-6 h-6 invert" alt="tiktok" />
+                <a href="https://tiktok.com/@zari.aj25" target="_blank" className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center hover:bg-purple-600 transition-all shadow-lg active:scale-90">
+                    <img src="tiktok.png" className="w-6 h-6" alt="tiktok" />
+                </a>
+                <a href="http://snapchat.com/@zari.aj25" target="_blank" className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center hover:bg-purple-600 transition-all shadow-lg active:scale-90">
+                    <img src="snapchat.png" className="w-6 h-6" alt="snap" />
                 </a>
                 <a href="https://wa.me/971588537024" target="_blank" className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center hover:bg-purple-600 transition-all shadow-lg active:scale-90">
-                    <img src="images/icons/whatsapp.svg" className="w-6 h-6 invert" alt="wa" />
+                    <img src="whatsapp.png" className="w-6 h-6" alt="wa" />
                 </a>
             </div>
           </div>

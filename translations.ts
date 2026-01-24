@@ -69,5 +69,22 @@ export const UI_STRINGS: Translation = {
   contactUs: { en: 'Contact Us', ar: 'اتصل بنا' },
   followUs: { en: 'Follow Us', ar: 'تابعنا' },
   copyright: { en: '© 2026 Zari Perfumes. All Rights Reserved', ar: '© 2026 عطور زاري. جميع الحقوق محفوظة' },
-  searchPlaceholder: { en: 'Search products...', ar: 'ابحث عن المنتجات...' }
+  searchPlaceholder: { en: 'Search products...', ar: 'ابحث عن المنتجات...' },
+  step: { en: 'Step', ar: 'الخطوة' },
+  seeLocation: { en: 'See Location', ar: 'مشاهدة الموقع' },
+  street: { en: 'Street', ar: 'الشارع' },
+  villa: { en: 'Villa', ar: 'فيلا' },
+  continue: { en: 'Continue', ar: 'متابعة' },
+  sendOtp: { en: 'SEND OTP', ar: 'إرسال الرمز' },
+  retry: { en: 'RETRY', ar: 'إعادة المحاولة' },
+  otpPlaceholder: { en: '6-digit OTP', ar: 'رمز التحقق من 6 أرقام' },
+  verifyComplete: { en: 'Verify & Complete', ar: 'تحقق وإتمام' },
+  orderInstructionEn: { en: 'Your order wont be processed until you send the copied receipt to either our', ar: 'لن يتم تنفيذ طلبك حتى ترسل نسخة من الإيصال إلى حسابنا على' },
+  orderInstructionAr: { en: 'Your order wont be processed until you send the copied receipt to either our', ar: 'لن يتم تنفيذ طلبك حتى ترسل نسخة من الإيصال إلى حسابنا على' },
+  whatsapp: { en: 'Whatsapp', ar: 'واتساب' },
+  instagram: { en: 'Instagram', ar: 'إنستغرام' },
+  or: { en: 'or', ar: 'أو' },
+  copyReceipt: { en: 'Copy Receipt Manually', ar: 'نسخ الإيصال يدوياً' },
+  copied: { en: '✓ COPIED!', ar: '✓ تم النسخ!' },
+  backToHome: { en: 'Back to Home', ar: 'العودة للرئيسية' }
 };

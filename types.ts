@@ -27,6 +27,7 @@ export interface Workshop {
   detailsEn: string;
   detailsAr: string;
   image: string;
+  link: string;
 }
 
 export interface CartItem extends Product {

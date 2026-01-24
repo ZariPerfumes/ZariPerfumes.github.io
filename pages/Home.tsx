@@ -144,7 +144,7 @@ const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* Workshop */}
+{/* Workshop */}
       <section className="py-24 bg-purple-50">
         <div className="container mx-auto px-4">
           <h2 className="text-4xl font-black text-center mb-16">{t('workshops')}</h2>
@@ -161,9 +161,16 @@ const Home: React.FC = () => {
               <p className="text-gray-600 text-lg leading-relaxed">
                 {lang === 'en' ? WORKSHOP.detailsEn : WORKSHOP.detailsAr}
               </p>
-              <button className="bg-purple-600 text-white px-10 py-4 rounded-full font-black hover:bg-purple-700 transition-all shadow-lg">
-                {lang === 'en' ? 'Register Now' : 'سجل الآن'}
-              </button>
+              <a 
+                href={WORKSHOP.link.startsWith('http') ? WORKSHOP.link : `https://${WORKSHOP.link}`} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="inline-block"
+              >
+                <button className="bg-purple-600 text-white px-10 py-4 rounded-full font-black hover:bg-purple-700 transition-all shadow-lg">
+                  {lang === 'en' ? 'Register Now' : 'سجل الآن'}
+                </button>
+              </a>
             </div>
           </div>
         </div>

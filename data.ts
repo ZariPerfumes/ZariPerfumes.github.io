@@ -59,36 +59,75 @@ export const WORKSHOP: Workshop = {
   time: "6:00 PM - 8:00 PM",
   detailsEn: "Join us for an exclusive evening of olfactory discovery. Learn the art of perfume making from expert blenders and create your own signature scent to take home.",
   detailsAr: "انضم إلينا في أمسية حصرية لاكتشاف العطور. تعلم فن صناعة العطور من الخبراء وابتكر رائحتك الخاصة لتأخذها معك إلى المنزل.",
-  image: "images/workshop.jpg"
+  image: "images/workshop.jpg",
+  link: ""
 };
 
 export const DELIVERY_COSTS = [
   {
     emirate: 'Dubai',
-    cities: { 'Deira': 30, 'Bur Dubai': 30, 'Jumeirah': 35, 'Downtown': 35, 'Al Barsha': 35, 'Mirdif': 35, 'JLT/Marina': 40, 'Jebel Ali': 45 }
+    cities: {
+      'Al Barsha 1': 0, 'Al Barsha 2': 0, 'Al Barsha 3': 0, 'Al Barsha South': 0,
+      'Al Khawaneej 1': 0, 'Al Khawaneej 2': 0,
+      'Al Quoz 1': 0, 'Al Quoz 2': 0, 'Al Quoz 3': 0, 'Al Quoz 4': 0,
+      'Al Warqaa 1': 0, 'Al Warqaa 2': 0, 'Al Warqaa 3': 0, 'Al Warqaa 4': 0,
+      'Business Bay': 0, 'Damac Hills': 0, 'Deira': 0, 'Downtown': 0,
+      'Dubai Marina': 0, 'Dubai Sports City': 0, 'International City': 0,
+      'JLT': 0, 'JVC': 0, 'JVT': 0, 'Jumeirah 1': 0, 'Jumeirah 2': 0, 'Jumeirah 3': 0,
+      'Mirdif': 0, 'Motor City': 0, 'Palm Jumeirah': 0, 'Silicon Oasis': 0
+    }
   },
   {
     emirate: 'Abu Dhabi',
-    cities: { 'City Center': 40, 'Khalifa City': 45, 'Yas Island': 45, 'Mussafah': 45, 'Mohammed Bin Zayed City': 45, 'Al Ain City': 50 }
+    cities: {
+      'Al Dhait': 0, 'Al Khalidiyah': 0, 'Al Muroor': 0, 'Al Mushrif': 0,
+      'Al Reem Island': 0, 'Al Saadiyat Island': 0, 'Al Shahama': 0,
+      'Baniyas': 0, 'City Center': 0, 'Khalifa City': 0,
+      'Mohammed Bin Zayed City': 0, 'Mussafah Industrial': 0,
+      'Shakhbout City': 0, 'Yas Island': 0
+    }
   },
   {
     emirate: 'Sharjah',
-    cities: { 'Al Majaz': 25, 'Al Khan': 25, 'Al Nahda': 25, 'Muwailih': 30, 'University City': 30, 'Khor Fakkan': 50, 'Kalba': 50 }
+    cities: {
+      'Al Gharayen': 0, 'Aljada': 0, 'Al Khan': 0, 'Al Majaz 1': 0, 'Al Majaz 2': 0,
+      'Al Majaz 3': 0, 'Al Nahda': 0, 'Al Noof': 0, 'Al Rahmaniya 1': 0,
+      'Al Rahmaniya 2': 0, 'Al Rahmaniya 3': 0, 'Al Suyoh': 0, 'Dhaid': 0,
+      'Kalba': 0, 'Khor Fakkan': 0, 'Muwailih': 0, 'University City': 0
+    }
   },
   {
     emirate: 'Ajman',
-    cities: { 'Al Nuaimiya': 20, 'Al Rawda': 20, 'Al Jurf': 20, 'Makhriz (Store)': 0, 'Hamriya': 30 }
+    cities: {
+      'Al Helio 1': 0, 'Al Helio 2': 0,
+      'Al Jurf 1': 0, 'Al Jurf 2': 0, 'Al Jurf 3': 0, 'Al Jurf Industrial': 0,
+      'Al Mowaihat 1': 0, 'Al Mowaihat 2': 0, 'Al Mowaihat 3': 0,
+      'Al Nuaimiya 1': 0, 'Al Nuaimiya 2': 0, 'Al Nuaimiya 3': 0,
+      'Al Rashidiya 1': 0, 'Al Rashidiya 2': 0,
+      'Al Rawda 1': 0, 'Al Rawda 2': 0, 'Al Rawda 3': 0,
+      'Al Yasmeen': 0, 'Al Zorah': 0, 'Garden City': 0
+    }
   },
   {
     emirate: 'Umm Al Quwain',
-    cities: { 'City Center': 35, 'Al Salamah': 35, 'Falaj Al Mualla': 45 }
+    cities: {
+      'Al Ramlah': 0, 'Al Raudah': 0, 'Al Salamah 1': 0, 'Al Salamah 2': 0,
+      'Al Salamah 3': 0, 'Falaj Al Mualla': 0, 'UAQ Marina': 0
+    }
   },
   {
     emirate: 'Ras Al Khaimah',
-    cities: { 'City Center': 40, 'Al Hamra': 45, 'Mina Al Arab': 45, 'Masafi': 50 }
+    cities: {
+      'Al Dhait North': 0, 'Al Dhait South': 0, 'Al Hamra Village': 0,
+      'Al Jazeera Al Hamra': 0, 'Al Marjan Island': 0, 'Al Nakheel': 0,
+      'Masafi': 0, 'Mina Al Arab': 0
+    }
   },
   {
     emirate: 'Fujairah',
-    cities: { 'City Center': 40, 'Dibba': 50, 'Al Aqah': 55 }
+    cities: {
+      'Al Aqah': 0, 'Al Faseel': 0, 'Dibba': 0, 'Fujairah City': 0,
+      'Masafi': 0, 'Mirbah': 0, 'Qidfa': 0
+    }
   }
 ];

@@ -17,7 +17,6 @@ const icon = L.icon({
   iconAnchor: [12, 41],
 });
 
-// Coordinates for automatic zoom
 const CITY_COORDS: Record<string, [number, number]> = {
   'Dubai': [25.2048, 55.2708],
   'Abu Dhabi': [24.4539, 54.3773],
@@ -41,7 +40,6 @@ const Cart: React.FC = () => {
   const { lang, cart, updateQuantity, removeFromCart, clearCart } = useApp();
   const t = (key: string) => UI_STRINGS[key]?.[lang] || key;
 
-  const [showClearConfirm, setShowClearConfirm] = useState(false);
   const [showCheckout, setShowCheckout] = useState(false);
   const [step, setStep] = useState(1);
   const [method, setMethod] = useState<'pickup' | 'delivery'>('pickup');
@@ -120,7 +118,7 @@ const Cart: React.FC = () => {
     setLoading(true);
     try {
       await confirmationResult?.confirm(otp);
-      const mapLink = `https://www.google.com/maps?q=$${mapCoords[0]},${mapCoords[1]}`;
+      const mapLink = `https://www.google.com/maps?q=${mapCoords[0]},${mapCoords[1]}`;
       const receipt = `ZARI PERFUMES\nTotal: ${total} AED\nPhone: ${phone}\nLocation: ${city}, ${emirate}\nAddress: ${locationDetails.villa}, ${locationDetails.street}\nMap: ${mapLink}`;
       const encrypted = encryptReceipt(receipt);
       setLastReceipt(encrypted);
@@ -183,7 +181,7 @@ const Cart: React.FC = () => {
           <div className="bg-white rounded-[56px] w-full max-w-3xl overflow-hidden animate-slide-up flex flex-col max-h-[92vh]">
             <div className="bg-purple-900 p-10 text-white">
                <div className="flex justify-between items-center mb-10">
-                 <h3 className="text-2xl font-black uppercase tracking-tighter">Step {step}</h3>
+                 <h3 className="text-2xl font-black uppercase tracking-tighter">{t('step')} {step}</h3>
                  <button onClick={() => setShowCheckout(false)}>✕</button>
                </div>
                <div className="flex items-center justify-center gap-16">
@@ -195,26 +193,67 @@ const Cart: React.FC = () => {
 
             <div className="p-10 lg:p-14 overflow-y-auto flex-grow">
               {step === 1 && (
-                <div className="space-y-8">
-                   <div className="grid grid-cols-2 gap-6">
-                      <button onClick={() => setMethod('pickup')} className={`p-8 rounded-[32px] border-4 font-black ${method==='pickup'?'border-purple-600 bg-purple-50':'border-gray-50'}`}>Pickup <a href="https://maps.app.goo.gl/wFuaKvBwv1ArSuis9" target="_blank" rel="noopener noreferrer" className="block text-[#25D366] hover:underline">See Location</a></button>
-                      <button onClick={() => setMethod('delivery')} className={`p-8 rounded-[32px] border-4 font-black ${method==='delivery'?'border-purple-600 bg-purple-50':'border-gray-50'}`}>Delivery</button>
-                   </div>
-                   {method === 'delivery' && (
-                     <div className="grid gap-6">
-                        <select value={emirate} onChange={(e) => {setEmirate(e.target.value); setCity('');}} className="p-6 bg-purple-50 rounded-[24px] outline-none font-black text-purple-900">
-                            <option value="">Select Emirate</option>
-                            {DELIVERY_COSTS.map(d => <option key={d.emirate} value={d.emirate}>{d.emirate}</option>)}
-                        </select>
-                        <select value={city} onChange={(e) => setCity(e.target.value)} className="p-6 bg-purple-50 rounded-[24px] outline-none font-black text-purple-900">
-                            <option value="">Select City</option>
-                            {emirate && Object.keys(DELIVERY_COSTS.find(d => d.emirate === emirate)?.cities || {}).map(c => <option key={c} value={c}>{c}</option>)}
-                        </select>
-                     </div>
-                   )}
-                   <button disabled={!isStep1Valid} onClick={() => setStep(2)} className="w-full bg-purple-600 text-white py-6 rounded-[28px] font-black text-xl shadow-xl disabled:opacity-30">Continue →</button>
-                </div>
-              )}
+   <div className="space-y-8">
+    <div className="grid grid-cols-2 gap-6">
+      {/* Pickup Option */}
+      <div 
+        onClick={() => setMethod('pickup')} 
+        className={`p-8 rounded-[32px] border-4 font-black cursor-pointer flex flex-col items-center justify-center text-center transition-all relative ${method === 'pickup' ? 'border-purple-600 bg-purple-50' : 'border-gray-50 bg-white'}`}
+      >
+        <span className="text-xl">{t('pickup')}</span>
+        <a 
+          href="https://www.google.com/maps/search/?api=1&query=Makhriz+Store+Ajman" 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          onClick={(e) => {
+            e.stopPropagation(); // Prevents clicking the link from toggling the method
+          }} 
+          className="inline-block text-[#25D366] hover:underline text-sm mt-2 relative z-[60] cursor-pointer"
+        >
+          {t('seeLocation')}
+        </a>
+      </div>
+
+      {/* Delivery Option */}
+      <button 
+        type="button"
+        onClick={() => setMethod('delivery')} 
+        className={`p-8 rounded-[32px] border-4 font-black transition-all ${method === 'delivery' ? 'border-purple-600 bg-purple-50' : 'border-gray-50 bg-white'}`}
+      >
+        {t('delivery')}
+      </button>
+    </div>
+
+    {method === 'delivery' && (
+      <div className="grid gap-6">
+        <select 
+          value={emirate} 
+          onChange={(e) => {setEmirate(e.target.value); setCity('');}} 
+          className="p-6 bg-purple-50 rounded-[24px] outline-none font-black text-purple-900"
+        >
+          <option value="">{t('selectEmirate')}</option>
+          {DELIVERY_COSTS.map(d => <option key={d.emirate} value={d.emirate}>{d.emirate}</option>)}
+        </select>
+        <select 
+          value={city} 
+          onChange={(e) => setCity(e.target.value)} 
+          className="p-6 bg-purple-50 rounded-[24px] outline-none font-black text-purple-900"
+        >
+          <option value="">{t('selectCity')}</option>
+          {emirate && Object.keys(DELIVERY_COSTS.find(d => d.emirate === emirate)?.cities || {}).map(c => <option key={c} value={c}>{c}</option>)}
+        </select>
+      </div>
+    )}
+
+    <button 
+      disabled={!isStep1Valid} 
+      onClick={() => setStep(2)} 
+      className="w-full bg-purple-600 text-white py-6 rounded-[28px] font-black text-xl shadow-xl disabled:opacity-30"
+    >
+      {t('continue')} →
+    </button>
+  </div>
+)}
 
               {step === 2 && (
                 <div className="space-y-8">
@@ -229,55 +268,49 @@ const Cart: React.FC = () => {
                         </MapContainer>
                       </div>
                       <div className="grid grid-cols-2 gap-6">
-                        <input placeholder="Street" className="p-6 bg-purple-50 rounded-[24px] font-black" onChange={e => setLocationDetails({...locationDetails, street: e.target.value})} />
-                        <input placeholder="Villa" className="p-6 bg-purple-50 rounded-[24px] font-black" onChange={e => setLocationDetails({...locationDetails, villa: e.target.value})} />
+                        <input placeholder={t('street')} className="p-6 bg-purple-50 rounded-[24px] font-black" onChange={e => setLocationDetails({...locationDetails, street: e.target.value})} />
+                        <input placeholder={t('villa')} className="p-6 bg-purple-50 rounded-[24px] font-black" onChange={e => setLocationDetails({...locationDetails, villa: e.target.value})} />
                       </div>
                     </div>
                   )}
                   <div className="flex gap-4">
                     <input placeholder="+971 XX XXX XXXX" className="flex-grow p-6 bg-purple-50 rounded-[24px] font-black" onChange={e => setPhone(e.target.value)} />
                     <button disabled={timer > 0} onClick={handleSendOtp} className="bg-purple-600 text-white px-8 rounded-[24px] font-black text-xs shadow-lg min-w-[140px]">
-                      {timer > 0 ? `RETRY ${timer}s` : 'SEND OTP'}
+                      {timer > 0 ? `${t('retry')} ${timer}s` : t('sendOtp')}
                     </button>
                   </div>
-                  {otpSent && <input placeholder="6-digit OTP" maxLength={6} className="w-full p-6 text-center tracking-[1em] bg-purple-50 border-4 border-purple-200 rounded-[24px] font-black text-2xl" onChange={e => setOtp(e.target.value)} />}
-                  <button disabled={!isStep2Valid || loading} onClick={handleVerifyOtp} className="w-full bg-purple-600 text-white py-6 rounded-[28px] font-black text-xl shadow-xl disabled:opacity-30">Verify & Complete</button>
+                  {otpSent && <input placeholder={t('otpPlaceholder')} maxLength={6} className="w-full p-6 text-center tracking-[1em] bg-purple-50 border-4 border-purple-200 rounded-[24px] font-black text-2xl" onChange={e => setOtp(e.target.value)} />}
+                  <button disabled={!isStep2Valid || loading} onClick={handleVerifyOtp} className="w-full bg-purple-600 text-white py-6 rounded-[28px] font-black text-xl shadow-xl disabled:opacity-30">{t('verifyComplete')}</button>
                 </div>
               )}
 
               {step === 3 && (
                  <div className="text-center space-y-8 py-10">
                     <p className="text-2xl font-black text-gray-900">
-                     Your order wont be processed until you send the copied receipt to either our 
-                     <a href="https://wa.me/971588537024" target="_blank" rel="noopener noreferrer" className="text-[#25D366] hover:underline"> Whatsapp </a> 
-                     or 
-                     <a href="https://www.instagram.com/zari.aj25" target="_blank" rel="noopener noreferrer" className="text-[#E1306C] hover:underline"> Instagram.</a>
-                    </p>
-                    <p className="text-2xl font-black text-gray-900">
-                     لن يتم تنفيذ طلبك حتى ترسل نسخة من الإيصال إلى حسابنا على
-                     <a href="https://wa.me/971588537024" target="_blank" rel="noopener noreferrer" className="text-[#25D366] hover:underline"> واتساب </a> 
-                     أو 
-                     <a href="https://www.instagram.com/zari.aj25" target="_blank" rel="noopener noreferrer" className="text-[#E1306C] hover:underline"> إنستغرام</a>
+                      {lang === 'en' ? t('orderInstructionEn') : t('orderInstructionAr')}
+                      <a href="https://wa.me/971588537024" target="_blank" rel="noopener noreferrer" className="text-[#25D366] hover:underline"> {t('whatsapp')} </a> 
+                      {t('or')} 
+                      <a href="https://www.instagram.com/zari.aj25" target="_blank" rel="noopener noreferrer" className="text-[#E1306C] hover:underline"> {t('instagram')}.</a>
                     </p>
 
                     <button 
                       onClick={(e) => {
                         navigator.clipboard.writeText(lastReceipt);
                         const btn = e.currentTarget;
-                        btn.innerHTML = "✓ COPIED!";
+                        btn.innerHTML = t('copied');
                         btn.style.borderColor = "#059669";
                         btn.style.color = "#059669";
                         setTimeout(() => {
-                          btn.innerHTML = "Copy Receipt Manually";
+                          btn.innerHTML = t('copyReceipt');
                           btn.style.borderColor = "#9333ea";
                           btn.style.color = "#9333ea";
                         }, 2000);
                       }} 
                       className="w-full border-4 border-purple-600 text-purple-600 py-6 rounded-[28px] font-black text-xl transition-all"
                     >
-                      Copy Receipt Manually
+                      {t('copyReceipt')}
                     </button>
-                    <Link to="/" onClick={clearCart} className="block bg-purple-600 text-white py-6 rounded-[28px] font-black text-xl shadow-xl">Back to Home</Link>
+                    <Link to="/" onClick={clearCart} className="block bg-purple-600 text-white py-6 rounded-[28px] font-black text-xl shadow-xl">{t('backToHome')}</Link>
                  </div>
               )}
             </div>
