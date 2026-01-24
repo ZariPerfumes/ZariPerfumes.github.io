@@ -1,11 +1,8 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useApp } from '../AppContext';
 import { UI_STRINGS } from '../translations';
 import { DELIVERY_COSTS } from '../data';
-import { encryptReceipt } from '../utils/encryption';
-import { auth } from '../firebase';
-import { RecaptchaVerifier, signInWithPhoneNumber, ConfirmationResult } from "firebase/auth";
 import { MapContainer, TileLayer, Marker, useMap, useMapEvents } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
@@ -38,51 +35,65 @@ function ChangeView({ center, zoom }: { center: [number, number], zoom: number }
 
 const Cart: React.FC = () => {
   const { lang, cart, updateQuantity, removeFromCart, clearCart } = useApp();
+  const navigate = useNavigate();
+  const receiptRef = useRef<HTMLDivElement>(null);
   const t = (key: string) => UI_STRINGS[key]?.[lang] || key;
 
   const [showCheckout, setShowCheckout] = useState(false);
+  const [showExitConfirm, setShowExitConfirm] = useState(false);
+  const [showCancelConfirm, setShowCancelConfirm] = useState(false);
   const [step, setStep] = useState(1);
   const [method, setMethod] = useState<'pickup' | 'delivery'>('pickup');
   const [emirate, setEmirate] = useState('');
   const [city, setCity] = useState('');
   const [phone, setPhone] = useState('');
-  const [otp, setOtp] = useState('');
-  const [otpSent, setOtpSent] = useState(false);
-  const [timer, setTimer] = useState(0);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-  const [lastReceipt, setLastReceipt] = useState('');
-  const [confirmationResult, setConfirmationResult] = useState<ConfirmationResult | null>(null);
+  const [email, setEmail] = useState('');
+  const [phoneError, setPhoneError] = useState(false);
+  const [emailError, setEmailError] = useState(false);
+  const [orderDate] = useState(new Date().toLocaleString());
   
   const [mapCoords, setMapCoords] = useState<[number, number]>([25.4052, 55.5136]);
   const [mapZoom, setMapZoom] = useState(11);
   const markerRef = useRef<L.Marker>(null);
-  const recaptchaVerifier = useRef<RecaptchaVerifier | null>(null);
-
   const [locationDetails, setLocationDetails] = useState({ street: '', villa: '' });
 
   const subtotal = cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
-  const deliveryFee = method === 'delivery' ? (DELIVERY_COSTS.find(e => e.emirate === emirate)?.cities[city as any] || 0) : 0;
+  const deliveryFee = method === 'delivery' ? (DELIVERY_COSTS.find(e => e.emirateEn === emirate)?.cities[city as any] || 0) : 0;
   const total = subtotal + deliveryFee;
 
+  const validateEmail = (emailStr: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailStr);
+  const validatePhone = (phoneStr: string) => /^\d{9}$/.test(phoneStr);
+
   const isStep1Valid = method === 'pickup' || (emirate !== '' && city !== '');
-  const isStep2Valid = phone.length >= 9 && otp.length === 6 && (method === 'pickup' || (locationDetails.street !== '' && locationDetails.villa !== ''));
+  const isStep2Valid = validatePhone(phone) && validateEmail(email) && (method === 'pickup' || (locationDetails.street !== '' && locationDetails.villa !== ''));
 
   useEffect(() => {
-    let interval: any;
-    if (timer > 0) interval = setInterval(() => setTimer((prev) => prev - 1), 1000);
-    return () => clearInterval(interval);
-  }, [timer]);
-
-  useEffect(() => {
-    if (city && CITY_COORDS[city]) {
-      setMapCoords(CITY_COORDS[city]);
-      setMapZoom(14);
-    } else if (emirate && CITY_COORDS[emirate]) {
+    if (emirate && CITY_COORDS[emirate]) {
       setMapCoords(CITY_COORDS[emirate]);
       setMapZoom(12);
     }
-  }, [city, emirate]);
+  }, [emirate]);
+
+  useEffect(() => {
+    if (step === 3 && receiptRef.current) {
+      const observer = new MutationObserver(() => {
+        window.location.reload();
+      });
+      observer.observe(receiptRef.current, { attributes: true, childList: true, subtree: true, characterData: true });
+      return () => observer.disconnect();
+    }
+  }, [step]);
+
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value.replace(/\D/g, '').slice(0, 9);
+    setPhone(val);
+    setPhoneError(val.length > 0 && val.length < 9);
+  };
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+    setEmailError(e.target.value.length > 0 && !validateEmail(e.target.value));
+  };
 
   const MapHandler = () => {
     useMapEvents({ click(e) { setMapCoords([e.latlng.lat, e.latlng.lng]); } });
@@ -99,33 +110,12 @@ const Cart: React.FC = () => {
     },
   }), []);
 
-  const handleSendOtp = async () => {
-    if (!phone || timer > 0) return;
-    setLoading(true);
-    let p = phone.startsWith('+') ? phone : `+971${phone.replace(/^0/, '')}`;
-    try {
-      if (!recaptchaVerifier.current) recaptchaVerifier.current = new RecaptchaVerifier(auth, 'recaptcha-container', { size: 'invisible' });
-      const result = await signInWithPhoneNumber(auth, p, recaptchaVerifier.current);
-      setConfirmationResult(result);
-      setOtpSent(true);
-      setTimer(120);
-      setError('');
-    } catch (err: any) { setError(err.message); }
-    setLoading(false);
-  };
-
-  const handleVerifyOtp = async () => {
-    setLoading(true);
-    try {
-      await confirmationResult?.confirm(otp);
-      const mapLink = `https://www.google.com/maps?q=${mapCoords[0]},${mapCoords[1]}`;
-      const receipt = `ZARI PERFUMES\nTotal: ${total} AED\nPhone: ${phone}\nLocation: ${city}, ${emirate}\nAddress: ${locationDetails.villa}, ${locationDetails.street}\nMap: ${mapLink}`;
-      const encrypted = encryptReceipt(receipt);
-      setLastReceipt(encrypted);
-      navigator.clipboard.writeText(encrypted);
-      setStep(3);
-    } catch (err) { setError("Invalid OTP"); }
-    setLoading(false);
+  const handleFullReset = () => {
+    clearCart();
+    setShowCheckout(false);
+    setShowCancelConfirm(false);
+    setStep(1);
+    navigate('/');
   };
 
   if (cart.length === 0 && !showCheckout) {
@@ -139,8 +129,6 @@ const Cart: React.FC = () => {
 
   return (
     <div className="pt-24 pb-20 bg-gray-50/50 min-h-screen">
-      <div id="recaptcha-container"></div>
-      
       <div className="h-[300px] mb-12 bg-gradient-to-br from-purple-950 to-purple-800 flex items-center justify-center text-white text-center">
         <h1 className="text-7xl font-black tracking-tighter uppercase">{t('cart')}</h1>
       </div>
@@ -178,88 +166,81 @@ const Cart: React.FC = () => {
 
       {showCheckout && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-purple-950/40 backdrop-blur-md">
-          <div className="bg-white rounded-[56px] w-full max-w-3xl overflow-hidden animate-slide-up flex flex-col max-h-[92vh]">
+          <div className="bg-white rounded-[56px] w-full max-w-3xl overflow-hidden animate-slide-up flex flex-col max-h-[92vh] relative">
+            
+            {showExitConfirm && (
+              <div className="absolute inset-0 z-[110] bg-purple-900/95 flex items-center justify-center p-8 text-center rounded-[56px]">
+                <div className="bg-white p-10 rounded-[40px] shadow-2xl max-w-sm">
+                  <h4 className="text-2xl font-black text-purple-900 mb-4">{lang === 'en' ? 'Close Checkout?' : 'إغلاق الدفع؟'}</h4>
+                  <p className="text-gray-600 font-bold mb-8">{lang === 'en' ? 'Your cart items will be saved.' : 'سيتم حفظ منتجاتك في السلة.'}</p>
+                  <div className="flex flex-col gap-3">
+                    <button onClick={() => setShowCheckout(false)} className="w-full bg-purple-600 text-white py-4 rounded-2xl font-black uppercase">{lang === 'en' ? 'Close & Save' : 'إغلاق وحفظ'}</button>
+                    <button onClick={() => setShowExitConfirm(false)} className="w-full bg-gray-100 text-gray-900 py-4 rounded-2xl font-black uppercase">{lang === 'en' ? 'Cancel' : 'إلغاء'}</button>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {showCancelConfirm && (
+              <div className="absolute inset-0 z-[110] bg-red-900/95 flex items-center justify-center p-8 text-center rounded-[56px]">
+                <div className="bg-white p-10 rounded-[40px] shadow-2xl max-w-sm">
+                  <h4 className="text-2xl font-black text-red-600 mb-4">{lang === 'en' ? 'Clear Everything?' : 'مسح كل شيء؟'}</h4>
+                  <p className="text-gray-600 font-bold mb-8">{lang === 'en' ? 'This will delete your cart and reset the app.' : 'سيتم حذف السلة وإعادة ضبط التطبيق.'}</p>
+                  <div className="flex flex-col gap-3">
+                    <button onClick={handleFullReset} className="w-full bg-red-600 text-white py-4 rounded-2xl font-black uppercase">Yes, Clear All</button>
+                    <button onClick={() => setShowCancelConfirm(false)} className="w-full bg-gray-100 text-gray-900 py-4 rounded-2xl font-black uppercase">No, Go Back</button>
+                  </div>
+                </div>
+              </div>
+            )}
+
             <div className="bg-purple-900 p-10 text-white">
                <div className="flex justify-between items-center mb-10">
-                 <h3 className="text-2xl font-black uppercase tracking-tighter">{t('step')} {step}</h3>
-                 <button onClick={() => setShowCheckout(false)}>✕</button>
+                 <button onClick={() => setShowExitConfirm(true)} className="text-3xl font-bold">✕</button>
                </div>
                <div className="flex items-center justify-center gap-16">
-                 <div className={`w-12 h-12 rounded-2xl flex items-center justify-center font-black ${step>=1?'bg-white text-purple-900':'bg-white/10'}`}>1</div>
-                 <div className={`w-12 h-12 rounded-2xl flex items-center justify-center font-black ${step>=2?'bg-white text-purple-900':'bg-white/10'}`}>2</div>
-                 <div className={`w-12 h-12 rounded-2xl flex items-center justify-center font-black ${step>=3?'bg-white text-purple-900':'bg-white/10'}`}>3</div>
+                 {[1, 2, 3].map(i => (
+                   <div key={i} className={`w-12 h-12 rounded-2xl flex items-center justify-center font-black ${step>=i?'bg-white text-purple-900':'bg-white/10'}`}>{i}</div>
+                 ))}
                </div>
             </div>
 
             <div className="p-10 lg:p-14 overflow-y-auto flex-grow">
               {step === 1 && (
-   <div className="space-y-8">
-    <div className="grid grid-cols-2 gap-6">
-      {/* Pickup Option */}
-      <div 
-        onClick={() => setMethod('pickup')} 
-        className={`p-8 rounded-[32px] border-4 font-black cursor-pointer flex flex-col items-center justify-center text-center transition-all relative ${method === 'pickup' ? 'border-purple-600 bg-purple-50' : 'border-gray-50 bg-white'}`}
-      >
-        <span className="text-xl">{t('pickup')}</span>
-        <a 
-          href="https://www.google.com/maps/search/?api=1&query=Makhriz+Store+Ajman" 
-          target="_blank" 
-          rel="noopener noreferrer" 
-          onClick={(e) => {
-            e.stopPropagation(); // Prevents clicking the link from toggling the method
-          }} 
-          className="inline-block text-[#25D366] hover:underline text-sm mt-2 relative z-[60] cursor-pointer"
-        >
-          {t('seeLocation')}
-        </a>
-      </div>
-
-      {/* Delivery Option */}
-      <button 
-        type="button"
-        onClick={() => setMethod('delivery')} 
-        className={`p-8 rounded-[32px] border-4 font-black transition-all ${method === 'delivery' ? 'border-purple-600 bg-purple-50' : 'border-gray-50 bg-white'}`}
-      >
-        {t('delivery')}
-      </button>
-    </div>
-
-    {method === 'delivery' && (
-      <div className="grid gap-6">
-        <select 
-          value={emirate} 
-          onChange={(e) => {setEmirate(e.target.value); setCity('');}} 
-          className="p-6 bg-purple-50 rounded-[24px] outline-none font-black text-purple-900"
-        >
-          <option value="">{t('selectEmirate')}</option>
-          {DELIVERY_COSTS.map(d => <option key={d.emirate} value={d.emirate}>{d.emirate}</option>)}
-        </select>
-        <select 
-          value={city} 
-          onChange={(e) => setCity(e.target.value)} 
-          className="p-6 bg-purple-50 rounded-[24px] outline-none font-black text-purple-900"
-        >
-          <option value="">{t('selectCity')}</option>
-          {emirate && Object.keys(DELIVERY_COSTS.find(d => d.emirate === emirate)?.cities || {}).map(c => <option key={c} value={c}>{c}</option>)}
-        </select>
-      </div>
-    )}
-
-    <button 
-      disabled={!isStep1Valid} 
-      onClick={() => setStep(2)} 
-      className="w-full bg-purple-600 text-white py-6 rounded-[28px] font-black text-xl shadow-xl disabled:opacity-30"
-    >
-      {t('continue')} →
-    </button>
-  </div>
-)}
+                <div className="space-y-8">
+                  <div className="grid grid-cols-2 gap-6">
+                    <div onClick={() => setMethod('pickup')} className={`p-8 rounded-[32px] border-4 font-black cursor-pointer flex flex-col items-center justify-center text-center transition-all ${method === 'pickup' ? 'border-purple-600 bg-purple-50' : 'border-gray-50 bg-white'}`}>
+                      <span className="text-xl">{t('pickup')}</span>
+                    </div>
+                    <button type="button" onClick={() => setMethod('delivery')} className={`p-8 rounded-[32px] border-4 font-black transition-all ${method === 'delivery' ? 'border-purple-600 bg-purple-50' : 'border-gray-50 bg-white'}`}>
+                      {t('delivery')}
+                    </button>
+                  </div>
+                  {method === 'delivery' && (
+                    <div className="grid gap-6">
+                      <select value={emirate} onChange={(e) => {setEmirate(e.target.value); setCity('');}} className="p-6 bg-purple-50 rounded-[24px] outline-none font-black text-purple-900 border-2 border-transparent">
+                        <option value="">{t('selectEmirate')}</option>
+                        {DELIVERY_COSTS.map(d => (
+                          <option key={d.emirateEn} value={d.emirateEn}>{lang === 'en' ? d.emirateEn : d.emirateAr}</option>
+                        ))}
+                      </select>
+                      <select value={city} onChange={(e) => setCity(e.target.value)} className="p-6 bg-purple-50 rounded-[24px] outline-none font-black text-purple-900 border-2 border-transparent">
+                        <option value="">{t('selectCity')}</option>
+                        {emirate && Object.keys(DELIVERY_COSTS.find(d => d.emirateEn === emirate)?.cities || {}).map(c => (
+                          <option key={c} value={c}>{c}</option>
+                        ))}
+                      </select>
+                    </div>
+                  )}
+                  <button disabled={!isStep1Valid} onClick={() => setStep(2)} className="w-full bg-purple-600 text-white py-6 rounded-[28px] font-black text-xl shadow-xl disabled:opacity-30">{t('continue')} →</button>
+                </div>
+              )}
 
               {step === 2 && (
-                <div className="space-y-8">
+                <div className="space-y-6">
                   {method === 'delivery' && (
                     <div className="space-y-4">
-                      <div className="h-72 rounded-[32px] overflow-hidden border-4 border-white shadow-lg relative z-0">
+                      <div className="h-64 rounded-[32px] overflow-hidden border-4 border-white shadow-lg relative z-0">
                         <MapContainer center={mapCoords} zoom={mapZoom} style={{height: "100%"}}>
                           <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
                           <Marker position={mapCoords} icon={icon} draggable={true} eventHandlers={eventHandlers} ref={markerRef} />
@@ -267,51 +248,57 @@ const Cart: React.FC = () => {
                           <MapHandler />
                         </MapContainer>
                       </div>
-                      <div className="grid grid-cols-2 gap-6">
-                        <input placeholder={t('street')} className="p-6 bg-purple-50 rounded-[24px] font-black" onChange={e => setLocationDetails({...locationDetails, street: e.target.value})} />
-                        <input placeholder={t('villa')} className="p-6 bg-purple-50 rounded-[24px] font-black" onChange={e => setLocationDetails({...locationDetails, villa: e.target.value})} />
+                      <div className="grid grid-cols-2 gap-4">
+                        <input placeholder={t('street')} className="p-5 bg-purple-50 rounded-[20px] font-black text-sm border-2 border-transparent" onChange={e => setLocationDetails({...locationDetails, street: e.target.value})} />
+                        <input placeholder={t('villa')} className="p-5 bg-purple-50 rounded-[20px] font-black text-sm border-2 border-transparent" onChange={e => setLocationDetails({...locationDetails, villa: e.target.value})} />
                       </div>
                     </div>
                   )}
-                  <div className="flex gap-4">
-                    <input placeholder="+971 XX XXX XXXX" className="flex-grow p-6 bg-purple-50 rounded-[24px] font-black" onChange={e => setPhone(e.target.value)} />
-                    <button disabled={timer > 0} onClick={handleSendOtp} className="bg-purple-600 text-white px-8 rounded-[24px] font-black text-xs shadow-lg min-w-[140px]">
-                      {timer > 0 ? `${t('retry')} ${timer}s` : t('sendOtp')}
-                    </button>
+                  
+                  <div className="space-y-4">
+                    <input value={email} onChange={handleEmailChange} type="text" placeholder="example@email.com" className={`w-full p-5 bg-purple-50 rounded-[20px] font-black text-sm border-2 outline-none ${emailError ? 'border-red-400' : 'border-transparent'}`} />
+                    <input value={phone} onChange={handlePhoneChange} type="text" placeholder="+971 ## ### ####" className={`w-full p-5 bg-purple-50 rounded-[20px] font-black text-sm border-2 outline-none ${phoneError ? 'border-red-400' : 'border-transparent'}`} />
                   </div>
-                  {otpSent && <input placeholder={t('otpPlaceholder')} maxLength={6} className="w-full p-6 text-center tracking-[1em] bg-purple-50 border-4 border-purple-200 rounded-[24px] font-black text-2xl" onChange={e => setOtp(e.target.value)} />}
-                  <button disabled={!isStep2Valid || loading} onClick={handleVerifyOtp} className="w-full bg-purple-600 text-white py-6 rounded-[28px] font-black text-xl shadow-xl disabled:opacity-30">{t('verifyComplete')}</button>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <button onClick={() => setStep(1)} className="bg-gray-100 text-gray-900 py-6 rounded-[28px] font-black text-xl">{lang === 'en' ? 'Back' : 'رجوع'}</button>
+                    <button disabled={!isStep2Valid} onClick={() => setStep(3)} className="bg-purple-600 text-white py-6 rounded-[28px] font-black text-xl disabled:opacity-30">{lang === 'en' ? 'Confirm' : 'تأكيد'}</button>
+                  </div>
                 </div>
               )}
 
               {step === 3 && (
-                 <div className="text-center space-y-8 py-10">
-                    <p className="text-2xl font-black text-gray-900">
-                      {lang === 'en' ? t('orderInstructionEn') : t('orderInstructionAr')}
-                      <a href="https://wa.me/971588537024" target="_blank" rel="noopener noreferrer" className="text-[#25D366] hover:underline"> {t('whatsapp')} </a> 
-                      {t('or')} 
-                      <a href="https://www.instagram.com/zari.aj25" target="_blank" rel="noopener noreferrer" className="text-[#E1306C] hover:underline"> {t('instagram')}.</a>
-                    </p>
+                <div className="text-center space-y-8 py-2">
+                  <div ref={receiptRef} className="bg-white p-12 rounded-[60px] border-[12px] border-purple-100 text-left space-y-8 shadow-2xl max-w-xl mx-auto relative select-none overflow-hidden" onContextMenu={(e) => e.preventDefault()}>
+                    <div className="absolute inset-0 z-[5] opacity-[0.06] pointer-events-none grid grid-cols-4 grid-rows-8 gap-4 rotate-[-15deg] scale-150">
+                       {Array(60).fill('ZARI PERFUMES').map((text, i) => <span key={i} className="text-2xl font-black whitespace-nowrap text-purple-900">{text}</span>)}
+                    </div>
+                    <div className="absolute inset-0 z-[100] bg-transparent"></div>
+                    <div className="flex justify-between items-start relative z-10">
+                      <div><h2 className="text-4xl font-black text-purple-900 italic uppercase">ZARI PERFUMES</h2></div>
+                      <div className="text-right text-[10px] font-black text-gray-400 uppercase">{orderDate}</div>
+                    </div>
+                    <div className="space-y-4 py-4 relative z-10 border-y-4 border-purple-50">
+                      {cart.map(item => (
+                        <div key={item.id} className="flex justify-between text-xl font-black text-gray-800">
+                          <span>{item.quantity}x {lang === 'en' ? item.nameEn : item.nameAr}</span>
+                          <span className="text-purple-600">{item.price * item.quantity} AED</span>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="pt-6 flex justify-between items-center relative z-10">
+                      <span className="text-3xl font-black text-purple-900 uppercase tracking-tighter">{t('total')}</span>
+                      <span className="text-5xl font-black text-purple-600">{total} AED</span>
+                    </div>
+                  </div>
 
-                    <button 
-                      onClick={(e) => {
-                        navigator.clipboard.writeText(lastReceipt);
-                        const btn = e.currentTarget;
-                        btn.innerHTML = t('copied');
-                        btn.style.borderColor = "#059669";
-                        btn.style.color = "#059669";
-                        setTimeout(() => {
-                          btn.innerHTML = t('copyReceipt');
-                          btn.style.borderColor = "#9333ea";
-                          btn.style.color = "#9333ea";
-                        }, 2000);
-                      }} 
-                      className="w-full border-4 border-purple-600 text-purple-600 py-6 rounded-[28px] font-black text-xl transition-all"
-                    >
-                      {t('copyReceipt')}
-                    </button>
-                    <Link to="/" onClick={clearCart} className="block bg-purple-600 text-white py-6 rounded-[28px] font-black text-xl shadow-xl">{t('backToHome')}</Link>
-                 </div>
+                  <div className="flex flex-col gap-4 max-w-xl mx-auto">
+                    <button onClick={() => setStep(2)} className="w-full bg-gray-100 text-gray-900 py-4 rounded-2xl font-black uppercase tracking-tight">← {lang === 'en' ? 'Back to Details' : 'رجوع للتفاصيل'}</button>
+                    <a href="https://form.jotform.com/zariperfumes/receipt-form" target="_blank" rel="noopener noreferrer" className="w-full bg-emerald-600 text-white py-6 rounded-3xl font-black text-2xl shadow-xl">UPLOAD SCREENSHOT →</a>
+                    <button onClick={() => navigate('/explore')} className="w-full border-4 border-purple-600 text-purple-600 py-4 rounded-2xl font-black uppercase">{lang === 'en' ? 'Continue Shopping (Save)' : 'متابعة التسوق (حفظ)'}</button>
+                    <button onClick={() => setShowCancelConfirm(true)} className="w-full text-red-500 font-black uppercase text-sm mt-4 hover:underline">Cancel Order & Clear Cart</button>
+                  </div>
+                </div>
               )}
             </div>
           </div>

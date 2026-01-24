@@ -68,69 +68,76 @@ export const WORKSHOP: Workshop = {
 
 export const DELIVERY_COSTS = [
   {
-    emirate: 'Dubai',
+    emirateEn: 'Dubai',
+    emirateAr: 'دبي',
     cities: {
-      'Al Barsha 1': 0, 'Al Barsha 2': 0, 'Al Barsha 3': 0, 'Al Barsha South': 0,
-      'Al Khawaneej 1': 0, 'Al Khawaneej 2': 0,
-      'Al Quoz 1': 0, 'Al Quoz 2': 0, 'Al Quoz 3': 0, 'Al Quoz 4': 0,
-      'Al Warqaa 1': 0, 'Al Warqaa 2': 0, 'Al Warqaa 3': 0, 'Al Warqaa 4': 0,
-      'Business Bay': 0, 'Damac Hills': 0, 'Deira': 0, 'Downtown': 0,
-      'Dubai Marina': 0, 'Dubai Sports City': 0, 'International City': 0,
-      'JLT': 0, 'JVC': 0, 'JVT': 0, 'Jumeirah 1': 0, 'Jumeirah 2': 0, 'Jumeirah 3': 0,
-      'Mirdif': 0, 'Motor City': 0, 'Palm Jumeirah': 0, 'Silicon Oasis': 0
+      'Al Barsha 1 - البرشاء ١': 0, 'Al Barsha 2 - البرشاء ٢': 0, 'Al Barsha 3 - البرشاء ٣': 0, 'Al Barsha South - البرشاء جنوب': 0,
+      'Al Khawaneej 1 - الخوانيج ١': 0, 'Al Khawaneej 2 - الخوانيج ٢': 0,
+      'Al Quoz 1 - القوز ١': 0, 'Al Quoz 2 - القوز ٢': 0, 'Al Quoz 3 - القوز ٣': 0, 'Al Quoz 4 - القوز ٤': 0,
+      'Al Warqaa 1 - الورقاء ١': 0, 'Al Warqaa 2 - الورقاء ٢': 0, 'Al Warqaa 3 - الورقاء ٣': 0, 'Al Warqaa 4 - الورقاء ٤': 0,
+      'Business Bay - الخليج التجاري': 0, 'Damac Hills - داماك هيلز': 0, 'Deira - ديرة': 0, 'Downtown - وسط المدينة': 0,
+      'Dubai Marina - دبي مارينا': 0, 'Dubai Sports City - مدينة دبي الرياضية': 0, 'International City - المدينة العالمية': 0,
+      'JLT - أبراج بحيرات الجميرا': 0, 'JVC - قرية جميرا الدائرية': 0, 'JVT - مثلث قرية جميرا': 0, 'Jumeirah 1 - جميرا ١': 0, 'Jumeirah 2 - جميرا ٢': 0, 'Jumeirah 3 - جميرا ٣': 0,
+      'Mirdif - مردف': 0, 'Motor City - موتور سيتي': 0, 'Palm Jumeirah - نخلة جميرا': 0, 'Silicon Oasis - واحة السليكون': 0
     }
   },
   {
-    emirate: 'Abu Dhabi',
+    emirateEn: 'Abu Dhabi',
+    emirateAr: 'أبوظبي',
     cities: {
-      'Al Dhait': 0, 'Al Khalidiyah': 0, 'Al Muroor': 0, 'Al Mushrif': 0,
-      'Al Reem Island': 0, 'Al Saadiyat Island': 0, 'Al Shahama': 0,
-      'Baniyas': 0, 'City Center': 0, 'Khalifa City': 0,
-      'Mohammed Bin Zayed City': 0, 'Mussafah Industrial': 0,
-      'Shakhbout City': 0, 'Yas Island': 0
+      'Al Khalidiyah - الخالدية': 0, 'Al Muroor - المرور': 0, 'Al Mushrif - المشرف': 0,
+      'Al Reem Island - جزيرة الريم': 0, 'Al Saadiyat Island - جزيرة السعديات': 0, 'Al Shahama - الشهامة': 0,
+      'Baniyas - بني ياس': 0, 'City Center - وسط المدينة': 0, 'Khalifa City - مدينة خليفة': 0,
+      'Mohammed Bin Zayed City - مدينة محمد بن زايد': 0, 'Mussafah Industrial - مصفح الصناعية': 0,
+      'Shakhbout City - مدينة شخبوط': 0, 'Yas Island - جزيرة ياس': 0
     }
   },
   {
-    emirate: 'Sharjah',
+    emirateEn: 'Sharjah',
+    emirateAr: 'الشارقة',
     cities: {
-      'Al Gharayen': 0, 'Aljada': 0, 'Al Khan': 0, 'Al Majaz 1': 0, 'Al Majaz 2': 0,
-      'Al Majaz 3': 0, 'Al Nahda': 0, 'Al Noof': 0, 'Al Rahmaniya 1': 0,
-      'Al Rahmaniya 2': 0, 'Al Rahmaniya 3': 0, 'Al Suyoh': 0, 'Dhaid': 0,
-      'Kalba': 0, 'Khor Fakkan': 0, 'Muwailih': 0, 'University City': 0
+      'Al Gharayen - القرائن': 0, 'Aljada - الجادة': 0, 'Al Khan - الخان': 0, 'Al Majaz 1 - المجاز ١': 0, 'Al Majaz 2 - المجاز ٢': 0,
+      'Al Majaz 3 - المجاز ٣': 0, 'Al Nahda - النهضة': 0, 'Al Noof - النوف': 0, 'Al Rahmaniya 1 - الرحمانية ١': 0,
+      'Al Rahmaniya 2 - الرحمانية ٢': 0, 'Al Rahmaniya 3 - الرحمانية ٣': 0, 'Al Suyoh - السيوح': 0, 'Dhaid - الذيد': 0,
+      'Kalba - كلباء': 0, 'Khor Fakkan - خورفكان': 0, 'Muwailih - مويلح': 0, 'University City - المدينة الجامعية': 0
     }
   },
   {
-    emirate: 'Ajman',
+    emirateEn: 'Ajman',
+    emirateAr: 'عجمان',
     cities: {
-      'Al Helio 1': 0, 'Al Helio 2': 0,
-      'Al Jurf 1': 0, 'Al Jurf 2': 0, 'Al Jurf 3': 0, 'Al Jurf Industrial': 0,
-      'Al Mowaihat 1': 0, 'Al Mowaihat 2': 0, 'Al Mowaihat 3': 0,
-      'Al Nuaimiya 1': 0, 'Al Nuaimiya 2': 0, 'Al Nuaimiya 3': 0,
-      'Al Rashidiya 1': 0, 'Al Rashidiya 2': 0,
-      'Al Rawda 1': 0, 'Al Rawda 2': 0, 'Al Rawda 3': 0,
-      'Al Yasmeen': 0, 'Al Zorah': 0, 'Garden City': 0
+      'Al Helio 1 - الحليو ١': 0, 'Al Helio 2 - الحليو ٢': 0,
+      'Al Jurf 1 - الجرف ١': 0, 'Al Jurf 2 - الجرف ٢': 0, 'Al Jurf 3 - الجرف ٣': 0, 'Al Jurf Industrial - الجرف الصناعية': 0,
+      'Al Mowaihat 1 - المويهات ١': 0, 'Al Mowaihat 2 - المويهات ٢': 0, 'Al Mowaihat 3 - المويهات ٣': 0,
+      'Al Nuaimiya 1 - النعيمية ١': 0, 'Al Nuaimiya 2 - النعيمية ٢': 0, 'Al Nuaimiya 3 - النعيمية ٣': 0,
+      'Al Rashidiya 1 - الراشدية ١': 0, 'Al Rashidiya 2 - الراشدية ٢': 0,
+      'Al Rawda 1 - الروضة ١': 0, 'Al Rawda 2 - الروضة ٢': 0, 'Al Rawda 3 - الروضة ٣': 0,
+      'Al Yasmeen - الياسمين': 0, 'Al Zorah - الزورا': 0, 'Garden City - جاردن سيتي': 0
     }
   },
   {
-    emirate: 'Umm Al Quwain',
+    emirateEn: 'Umm Al Quwain',
+    emirateAr: 'أم القيوين',
     cities: {
-      'Al Ramlah': 0, 'Al Raudah': 0, 'Al Salamah 1': 0, 'Al Salamah 2': 0,
-      'Al Salamah 3': 0, 'Falaj Al Mualla': 0, 'UAQ Marina': 0
+      'Al Ramlah - الرملة': 0, 'Al Raudah - الروضة': 0, 'Al Salamah 1 - السلامة ١': 0, 'Al Salamah 2 - السلامة ٢': 0,
+      'Al Salamah 3 - السلامة ٣': 0, 'Falaj Al Mualla - فلج المعلا': 0, 'UAQ Marina - مارينا أم القيوين': 0
     }
   },
   {
-    emirate: 'Ras Al Khaimah',
+    emirateEn: 'Ras Al Khaimah',
+    emirateAr: 'رأس الخيمة',
     cities: {
-      'Al Dhait North': 0, 'Al Dhait South': 0, 'Al Hamra Village': 0,
-      'Al Jazeera Al Hamra': 0, 'Al Marjan Island': 0, 'Al Nakheel': 0,
-      'Masafi': 0, 'Mina Al Arab': 0
+      'Al Dhait North - الظيت شمال': 0, 'Al Dhait South - الظيت جنوب': 0, 'Al Hamra Village - قرية الحمراء': 0,
+      'Al Jazeera Al Hamra - الجزيرة الحمراء': 0, 'Al Marjan Island - جزيرة المرجان': 0, 'Al Nakheel - النخيل': 0,
+      'Masafi - مسافي': 0, 'Mina Al Arab - مينا العرب': 0
     }
   },
   {
-    emirate: 'Fujairah',
+    emirateEn: 'Fujairah',
+    emirateAr: 'الفجيرة',
     cities: {
-      'Al Aqah': 0, 'Al Faseel': 0, 'Dibba': 0, 'Fujairah City': 0,
-      'Masafi': 0, 'Mirbah': 0, 'Qidfa': 0
+      'Al Aqah - العقة': 0, 'Al Faseel - الفصيل': 0, 'Dibba - دبا': 0, 'Fujairah City - مدينة الفجيرة': 0,
+      'Masafi - مسافي': 0, 'Mirbah - مربح': 0, 'Qidfa - قدفع': 0
     }
   }
 ];

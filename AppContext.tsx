@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { Language, CartItem, Product } from './types';
 import { PRODUCTS } from './data';
@@ -20,10 +19,30 @@ interface AppContextType {
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [lang, setLang] = useState<Language>('en');
-  const [cart, setCart] = useState<CartItem[]>([]);
+  // Initialize language from localStorage or default to 'en'
+  const [lang, setLang] = useState<Language>(() => {
+    const savedLang = localStorage.getItem('zari_lang');
+    return (savedLang as Language) || 'en';
+  });
+
+  // Initialize cart from localStorage or default to empty array
+  const [cart, setCart] = useState<CartItem[]>(() => {
+    const savedCart = localStorage.getItem('zari_cart');
+    return savedCart ? JSON.parse(savedCart) : [];
+  });
+
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+
+  // Save cart to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem('zari_cart', JSON.stringify(cart));
+  }, [cart]);
+
+  // Save language to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem('zari_lang', lang);
+  }, [lang]);
 
   const addToCart = (product: Product) => {
     setCart(prev => {
@@ -47,7 +66,10 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     }));
   };
 
-  const clearCart = () => setCart([]);
+  const clearCart = () => {
+    setCart([]);
+    localStorage.removeItem('zari_cart');
+  };
 
   return (
     <AppContext.Provider value={{
