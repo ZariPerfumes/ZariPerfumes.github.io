@@ -20,10 +20,13 @@ export interface Store {
 }
 
 export interface Workshop {
+  id: string;
   nameEn: string;
   nameAr: string;
   date: string;
+  dateAr: string;
   time: string;
+  timeAr: string;
   detailsEn: string;
   detailsAr: string;
   image: string;

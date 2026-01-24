@@ -1,4 +1,3 @@
-
 import { Translation } from './types';
 
 export const UI_STRINGS: Translation = {
@@ -6,7 +5,7 @@ export const UI_STRINGS: Translation = {
   explore: { en: 'Explore', ar: 'استكشف' },
   stores: { en: 'Stores', ar: 'المحلات' },
   cart: { en: 'Cart', ar: 'السلة' },
-  welcome: { en: 'Welcome to Zari', ar: 'مرحباً بكم في زاري' },
+  welcome: { en: 'Welcome to Zari', ar: 'مرحباً بكم في زري' },
   discoverCollection: { en: 'Discover our exclusive collection of authentic perfumes from the finest stores from all over the world', ar: 'اكتشف مجموعتنا الحصرية من العطور الأصيلة من أرقى المتاجر من جميع أنحاء العالم' },
   exploreNow: { en: 'Explore Now', ar: 'استكشف الآن' },
   ourStores: { en: 'Our Stores', ar: 'محلاتنا' },
@@ -68,7 +67,7 @@ export const UI_STRINGS: Translation = {
   footerAbout: { en: 'Bringing you the finest perfumes from around the world to the UAE. Exceptional quality and authentic products.', ar: 'نقدم لك أرقى العطور من جميع أنحاء العالم إلى الإمارات. جودة استثنائية ومنتجات أصيلة.' },
   contactUs: { en: 'Contact Us', ar: 'اتصل بنا' },
   followUs: { en: 'Follow Us', ar: 'تابعنا' },
-  copyright: { en: '© 2026 Zari Perfumes. All Rights Reserved', ar: '© 2026 عطور زاري. جميع الحقوق محفوظة' },
+  copyright: { en: '© 2026 Zari Perfumes. All Rights Reserved', ar: '© 2026 عطور زري. جميع الحقوق محفوظة' },
   searchPlaceholder: { en: 'Search products...', ar: 'ابحث عن المنتجات...' },
   step: { en: 'Step', ar: 'الخطوة' },
   seeLocation: { en: 'See Location', ar: 'مشاهدة الموقع' },
@@ -86,5 +85,19 @@ export const UI_STRINGS: Translation = {
   or: { en: 'or', ar: 'أو' },
   copyReceipt: { en: 'Copy Receipt Manually', ar: 'نسخ الإيصال يدوياً' },
   copied: { en: '✓ COPIED!', ar: '✓ تم النسخ!' },
-  backToHome: { en: 'Back to Home', ar: 'العودة للرئيسية' }
+  backToHome: { en: 'Back to Home', ar: 'العودة للرئيسية' },
+  ourLegacy: { en: 'Our Legacy', ar: 'تراثنا' },
+  learnMore: { en: 'Learn More', ar: 'تعرف أكثر' },
+  registerNow: { en: 'Register Now', ar: 'سجل الآن' },
+  discover: { en: 'DISCOVER', ar: 'اكتشف' },
+  authenticityEveryDrop: { en: 'Authenticity in Every Drop', ar: 'الأصالة في كل قطرة' },
+  ajmanCity: { en: 'Ajman', ar: 'عجمان' },
+  globalReach: { en: 'Global', ar: 'عالمي' },
+  origin: { en: 'ORIGIN', ar: 'المنشأ' },
+  reach: { en: 'REACH', ar: 'الوصول' },
+  finestIngredients: { en: 'Finest Ingredients Since 2024', ar: 'أجود المكونات منذ ٢٠٢٤' },
+  brandStory: { 
+    en: 'From the heart of Ajman to the rest of the world, Zari Perfumes brings you a curated selection of scents that define luxury and tradition. We bridge the gap between classic Arabian heritage and contemporary international trends, ensuring every bottle tells a unique story.', 
+    ar: 'من قلب عجمان إلى بقية العالم، تقدم لك عطور زاري مجموعة مختارة من الروائح التي تحدد الفخامة والتقاليد. نحن نسد الفجوة بين التراث العربي الكلاسيكي والاتجاهات الدولية المعاصرة، مما يضمن أن كل زجاجة تحكي قصة فريدة.' 
+  }
 };

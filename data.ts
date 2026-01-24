@@ -53,14 +53,17 @@ export const PRODUCTS: Product[] = [
 ];
 
 export const WORKSHOP: Workshop = {
-  nameEn: "Perfume Blending Workshop",
-  nameAr: "ورشة عمل تركيب العطور",
-  date: "October 24, 2025",
-  time: "6:00 PM - 8:00 PM",
-  detailsEn: "Join us for an exclusive evening of olfactory discovery. Learn the art of perfume making from expert blenders and create your own signature scent to take home.",
-  detailsAr: "انضم إلينا في أمسية حصرية لاكتشاف العطور. تعلم فن صناعة العطور من الخبراء وابتكر رائحتك الخاصة لتأخذها معك إلى المنزل.",
-  image: "images/workshop.jpg",
-  link: ""
+  id: 'w1',
+  nameEn: 'Perfume Blending Workshop',
+  nameAr: 'ورشة عمل تركيب العطور',
+  date: 'October 24, 2025',
+  dateAr: '٢٤ أكتوبر ٢٠٢٥',
+  time: '6:00 PM - 8:00 PM',
+  timeAr: '٦:٠٠ مساءً - ٨:٠٠ مساءً',
+  detailsEn: 'Join us for an exclusive evening of fragrance discovery...',
+  detailsAr: 'انضم إلينا في أمسية حصرية لاكتشاف العطور. تعلم فن صناعة العطور من الخبراء وابتكر رائحتك الخاصة لتأخذها معك إلى المنزل.',
+  image: 'images/workshop.jpg',
+  link: 'https://zariperfumes.github.io/#/'
 };
 
 export const DELIVERY_COSTS = [

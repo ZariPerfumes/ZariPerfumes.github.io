@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useApp } from '../AppContext';
@@ -99,7 +98,7 @@ const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* Brand Story Section (Photo and beside it text) */}
+      {/* Brand Story Section */}
       <section className="py-24 bg-white">
         <div className="container mx-auto px-4">
           <div className="flex flex-col lg:flex-row items-center gap-16">
@@ -111,40 +110,37 @@ const Home: React.FC = () => {
                   alt="Zari Perfumes Story" 
                 />
                 <div className="absolute -bottom-8 -right-8 w-48 h-48 bg-purple-600 rounded-[32px] hidden lg:flex items-center justify-center text-white p-8 shadow-xl">
-                  <p className="text-center font-black leading-tight text-lg">Finest Ingredients Since 2024</p>
+                  <p className="text-center font-black leading-tight text-lg">{t('finestIngredients')}</p>
                 </div>
               </div>
             </div>
             <div className="lg:w-1/2 w-full space-y-8">
-              <span className="text-purple-600 font-black uppercase tracking-widest text-sm">Our Legacy</span>
+              <span className="text-purple-600 font-black uppercase tracking-widest text-sm">{t('ourLegacy')}</span>
               <h2 className="text-5xl font-black text-gray-900 leading-tight">
-                {lang === 'en' ? 'Authenticity in Every Drop' : 'الأصالة في كل قطرة'}
+                {t('authenticityEveryDrop')}
               </h2>
               <p className="text-gray-600 text-lg leading-relaxed">
-                {lang === 'en' 
-                  ? "From the heart of Ajman to the rest of the world, Zari Perfumes brings you a curated selection of scents that define luxury and tradition. We bridge the gap between classic Arabian heritage and contemporary international trends, ensuring every bottle tells a unique story."
-                  : "من قلب عجمان إلى بقية العالم، تقدم لك عطور زاري مجموعة مختارة من الروائح التي تحدد الفخامة والتقاليد. نحن نسد الفجوة بين التراث العربي الكلاسيكي والاتجاهات الدولية المعاصرة، مما يضمن أن كل زجاجة تحكي قصة فريدة."
-                }
+                {t('brandStory')}
               </p>
               <div className="pt-4 flex gap-8">
                 <div>
-                  <p className="text-3xl font-black text-purple-600">Ajman</p>
-                  <p className="text-gray-400 font-bold uppercase tracking-tighter text-xs">Origin</p>
+                  <p className="text-3xl font-black text-purple-600">{t('ajmanCity')}</p>
+                  <p className="text-gray-400 font-bold uppercase tracking-tighter text-xs">{t('origin')}</p>
                 </div>
                 <div>
-                  <p className="text-3xl font-black text-purple-600">Global</p>
-                  <p className="text-gray-400 font-bold uppercase tracking-tighter text-xs">Reach</p>
+                  <p className="text-3xl font-black text-purple-600">{t('globalReach')}</p>
+                  <p className="text-gray-400 font-bold uppercase tracking-tighter text-xs">{t('reach')}</p>
                 </div>
               </div>
               <Link to="/explore" className="inline-block bg-purple-900 text-white px-10 py-4 rounded-full font-black hover:bg-purple-800 transition-all shadow-lg hover:-translate-y-1">
-                {lang === 'en' ? 'Learn More' : 'تعرف أكثر'}
+                {t('learnMore')}
               </Link>
             </div>
           </div>
         </div>
       </section>
 
-{/* Workshop */}
+      {/* Workshop */}
       <section className="py-24 bg-purple-50">
         <div className="container mx-auto px-4">
           <h2 className="text-4xl font-black text-center mb-16">{t('workshops')}</h2>
@@ -155,9 +151,9 @@ const Home: React.FC = () => {
             <div className="p-10 lg:p-20 space-y-6">
               <span className="text-purple-600 font-black uppercase tracking-widest text-sm">{lang === 'en' ? WORKSHOP.nameEn : WORKSHOP.nameAr}</span>
               <h3 className="text-4xl font-black text-gray-900 leading-tight">
-                {WORKSHOP.date}
+                {lang === 'en' ? WORKSHOP.date : WORKSHOP.dateAr}
               </h3>
-              <p className="text-xl text-purple-700 font-black">{WORKSHOP.time}</p>
+              <p className="text-xl text-purple-700 font-black">{lang === 'en' ? WORKSHOP.time : WORKSHOP.timeAr}</p>
               <p className="text-gray-600 text-lg leading-relaxed">
                 {lang === 'en' ? WORKSHOP.detailsEn : WORKSHOP.detailsAr}
               </p>
@@ -168,7 +164,7 @@ const Home: React.FC = () => {
                 className="inline-block"
               >
                 <button className="bg-purple-600 text-white px-10 py-4 rounded-full font-black hover:bg-purple-700 transition-all shadow-lg">
-                  {lang === 'en' ? 'Register Now' : 'سجل الآن'}
+                  {t('registerNow')}
                 </button>
               </a>
             </div>
@@ -180,7 +176,7 @@ const Home: React.FC = () => {
       <section className="py-24 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <p className="text-purple-600 font-black mb-2 uppercase tracking-widest text-sm">DISCOVER</p>
+            <p className="text-purple-600 font-black mb-2 uppercase tracking-widest text-sm">{t('discover')}</p>
             <h2 className="text-5xl font-black mb-4">{t('featuredStores')}</h2>
             <p className="text-gray-500 text-lg">{t('shopFinest')}</p>
           </div>
