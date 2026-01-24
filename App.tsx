@@ -9,12 +9,8 @@ import Explore from './pages/Explore';
 import Stores from './pages/Stores';
 import StoreDetail from './pages/StoreDetail';
 import Cart from './pages/Cart';
-import Decryptor from './pages/Decryptor';
 import 'leaflet/dist/leaflet.css';
 
-<main className="flex-grow">
-  <Decryptor /> 
-</main>
 const App: React.FC = () => {
   return (
     <AppProvider>
@@ -28,7 +24,6 @@ const App: React.FC = () => {
               <Route path="/stores" element={<Stores />} />
               <Route path="/stores/:id" element={<StoreDetail />} />
               <Route path="/cart" element={<Cart />} />
-              <Route path="/decryptor" element={<Decryptor />} />
             </Routes>
           </main>
           <Footer />
