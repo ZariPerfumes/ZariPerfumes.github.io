@@ -4,7 +4,7 @@ import { useApp } from '../AppContext';
 import { UI_STRINGS } from '../translations';
 import { PRODUCTS } from '../data';
 
-const LOGO_URL = `${(import.meta as any).env.BASE_URL}images/logo.png`;
+const LOGO_URL = "./images/logo.png";
 
 const Header: React.FC = () => {
   const { lang, setLang, cart, wishlist, isSearchOpen, setIsSearchOpen, searchQuery, setSearchQuery } = useApp();
