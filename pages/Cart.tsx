@@ -4,6 +4,7 @@ import { useApp } from '../AppContext';
 import { UI_STRINGS } from '../translations';
 import { DELIVERY_COSTS } from '../data';
 import { MapContainer, TileLayer, Marker, useMap, useMapEvents } from 'react-leaflet';
+import html2canvas from 'html2canvas'; // Added for download feature
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 
@@ -78,15 +79,21 @@ const Cart: React.FC = () => {
     }
   }, [emirate]);
 
-  useEffect(() => {
-    if (step === 3 && receiptRef.current) {
-      const observer = new MutationObserver(() => {
-        window.location.reload();
+  // Download Receipt Logic
+  const downloadReceipt = async () => {
+    if (receiptRef.current) {
+      const canvas = await html2canvas(receiptRef.current, {
+        scale: 2,
+        backgroundColor: "#ffffff",
+        logging: false,
       });
-      observer.observe(receiptRef.current, { attributes: true, childList: true, subtree: true, characterData: true });
-      return () => observer.disconnect();
+      const image = canvas.toDataURL("image/png");
+      const link = document.createElement("a");
+      link.href = image;
+      link.download = `Zari-Order-${Date.now()}.png`;
+      link.click();
     }
-  }, [step]);
+  };
 
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value.replace(/\D/g, '').slice(0, 9);
@@ -150,7 +157,7 @@ const Cart: React.FC = () => {
                        >
                          {item.quantity === 1 ? (
                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19(7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
                            </svg>
                          ) : '-'}
                        </button>
@@ -188,13 +195,14 @@ const Cart: React.FC = () => {
                   <p className="text-gray-600 font-bold mb-8">{lang === 'en' ? 'Your cart items will be saved.' : 'سيتم حفظ منتجاتك في السلة.'}</p>
                   <div className="flex flex-col gap-3">
                     <button 
-  onClick={() => {
-    setShowCheckout(false);
-    setShowExitConfirm(false);
-  }} 
-  className="w-full bg-purple-600 text-white py-4 rounded-2xl font-black uppercase"
->
-{lang === 'en' ? 'Close & Save' : 'إغلاق وحفظ'}</button>
+                      onClick={() => {
+                        setShowCheckout(false);
+                        setShowExitConfirm(false);
+                      }} 
+                      className="w-full bg-purple-600 text-white py-4 rounded-2xl font-black uppercase"
+                    >
+                      {lang === 'en' ? 'Close & Save' : 'إغلاق وحفظ'}
+                    </button>
                     <button onClick={() => setShowExitConfirm(false)} className="w-full bg-gray-100 text-gray-900 py-4 rounded-2xl font-black uppercase">{lang === 'en' ? 'Cancel' : 'إلغاء'}</button>
                   </div>
                 </div>
@@ -300,7 +308,21 @@ const Cart: React.FC = () => {
               )}
 
               {step === 3 && (
-                <div className="text-center space-y-8 py-2">
+                <div className="text-center space-y-6 py-2">
+                  {/* Screenshot Instructions */}
+                  <div className="flex flex-col items-center gap-2 mb-4 animate-pulse">
+                    <div className="flex items-center gap-3">
+                      <svg className="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+                      </svg>
+                      <h3 className="text-xl font-black text-purple-900 uppercase italic">
+                        {lang === 'en' ? 'Take a Screenshot' : 'خذ لقطة للشاشة'}
+                      </h3>
+                    </div>
+                  </div>
+
+                  {/* Receipt Component */}
                   <div ref={receiptRef} className="bg-white p-12 rounded-[60px] border-[12px] border-purple-100 text-left space-y-8 shadow-2xl max-w-xl mx-auto relative select-none overflow-hidden" onContextMenu={(e) => e.preventDefault()}>
                     <div className="absolute inset-0 z-[5] opacity-[0.06] pointer-events-none grid grid-cols-4 grid-rows-8 gap-4 rotate-[-15deg] scale-150">
                        {Array(60).fill('ZARI PERFUMES').map((text, i) => <span key={i} className="text-2xl font-black whitespace-nowrap text-purple-900">{text}</span>)}
@@ -324,8 +346,12 @@ const Cart: React.FC = () => {
                     </div>
                   </div>
 
+                  {/* Final Actions */}
                   <div className="flex flex-col gap-4 max-w-xl mx-auto">
-                    <button onClick={() => setStep(2)} className="w-full bg-gray-100 text-gray-900 py-4 rounded-2xl font-black uppercase tracking-tight">← {lang === 'en' ? 'Back to Details' : 'رجوع للتفاصيل'}</button>
+                    <button onClick={downloadReceipt} className="w-full bg-purple-100 text-purple-900 py-4 rounded-2xl font-black uppercase flex items-center justify-center gap-3 hover:bg-purple-200 transition-all">
+                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                       {lang === 'en' ? 'Download Image' : 'تحميل الصورة'}
+                    </button>
                     <a href="https://form.jotform.com/zariperfumes/receipt-form" target="_blank" rel="noopener noreferrer" className="w-full bg-emerald-600 text-white py-6 rounded-3xl font-black text-2xl shadow-xl">{lang === 'en' ? 'UPLOAD SCREENSHOT →' : 'تحميل لقطة شاشة →'}</a>
                     <button onClick={() => navigate('/explore')} className="w-full border-4 border-purple-600 text-purple-600 py-4 rounded-2xl font-black uppercase">{lang === 'en' ? 'Continue Shopping (Save)' : 'متابعة التسوق (حفظ)'}</button>
                     <button onClick={() => setShowCancelConfirm(true)} className="w-full text-red-500 font-black uppercase text-sm mt-4 hover:underline">{lang === 'en' ? 'Cancel Order & Clear Cart' : 'إلغاء الطلب ومسح السلة'}</button>

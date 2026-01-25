@@ -13,6 +13,7 @@ import NotFound from './pages/NotFound';
 import WhatsAppButton from './components/WhatsAppButton';
 import { Toaster } from 'react-hot-toast';
 import 'leaflet/dist/leaflet.css';
+import ProductDetail from './pages/ProductDetail';
 
 const App: React.FC = () => {
   return (
@@ -25,11 +26,11 @@ const App: React.FC = () => {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/explore" element={<Explore />} />
+              <Route path="/product/:id" element={<ProductDetail />} />
               <Route path="/stores" element={<Stores />} />
               <Route path="/stores/:id" element={<StoreDetail />} />
               <Route path="/cart" element={<Cart />} />
               <Route path="/wishlist" element={<Wishlist />} />
-              {/* Catch-all route for 404 */}
               <Route path="*" element={<NotFound />} />
             </Routes>
           </main>
