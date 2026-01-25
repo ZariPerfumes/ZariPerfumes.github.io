@@ -130,7 +130,7 @@ const Cart: React.FC = () => {
   return (
     <div className="pt-24 pb-20 bg-gray-50/50 min-h-screen">
       <div className="h-[300px] mb-12 bg-gradient-to-br from-purple-950 to-purple-800 flex items-center justify-center text-white text-center">
-        <h1 className="text-7xl font-black tracking-tighter uppercase">{t('cart')}</h1>
+        <h1 className="text-7xl font-black tracking-tighter">{t('cart')}</h1>
       </div>
 
       <div className="container mx-auto px-4 lg:flex gap-12">
@@ -142,7 +142,16 @@ const Cart: React.FC = () => {
                 <h3 className="text-2xl font-black text-gray-900">{lang === 'en' ? item.nameEn : item.nameAr}</h3>
                 <p className="text-purple-600 font-bold text-lg">{item.price} AED</p>
                 <div className="flex items-center bg-purple-50 w-fit rounded-2xl p-1.5 mt-4 gap-6">
-                   <button onClick={() => item.quantity === 1 ? removeFromCart(item.id) : updateQuantity(item.id, -1)} className="p-2 text-purple-600 font-black text-xl">{item.quantity === 1 ? '✕' : '-'}</button>
+                   <button 
+                     onClick={() => item.quantity === 1 ? removeFromCart(item.id) : updateQuantity(item.id, -1)} 
+                     className={`p-2 transition-colors flex items-center justify-center ${item.quantity === 1 ? 'text-red-500' : 'text-purple-600 font-black text-xl'}`}
+                   >
+                     {item.quantity === 1 ? (
+                       <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                       </svg>
+                     ) : '-'}
+                   </button>
                    <span className="font-black text-purple-900 text-xl">{item.quantity}</span>
                    <button onClick={() => updateQuantity(item.id, 1)} className="p-2 text-purple-600 font-black text-xl">+</button>
                 </div>

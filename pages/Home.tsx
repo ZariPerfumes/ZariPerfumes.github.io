@@ -24,7 +24,7 @@ const Home: React.FC = () => {
         <div className="absolute inset-0 bg-black/40"></div>
         
         <div className="relative z-10 text-center text-white px-4 max-w-4xl animate-fade-in">
-          <p className="text-sm md:text-base uppercase tracking-widest mb-4 opacity-90">✨ Ajman, UAE ✨</p>
+          <p className="text-sm md:text-base uppercase tracking-widest mb-4 opacity-90">✨ {lang === 'en' ? 'Ajman, UAE' : 'عجمان، الإمارات العربية المتحدة'} ✨</p>
           <h1 className="text-5xl md:text-7xl font-bold mb-6">{t('welcome')}</h1>
           <p className="text-lg md:text-xl opacity-80 mb-10 max-w-2xl mx-auto leading-relaxed">
             {t('discoverCollection')}

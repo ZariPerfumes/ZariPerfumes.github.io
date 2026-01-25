@@ -8,12 +8,16 @@ import Explore from './pages/Explore';
 import Stores from './pages/Stores';
 import StoreDetail from './pages/StoreDetail';
 import Cart from './pages/Cart';
+import Wishlist from './pages/Wishlist';
+import NotFound from './pages/NotFound';
 import WhatsAppButton from './components/WhatsAppButton';
+import { Toaster } from 'react-hot-toast';
 import 'leaflet/dist/leaflet.css';
 
 const App: React.FC = () => {
   return (
     <AppProvider>
+      <Toaster position="bottom-center" reverseOrder={false} />
       <Router>
         <div className="flex flex-col min-h-screen">
           <Header />
@@ -24,6 +28,9 @@ const App: React.FC = () => {
               <Route path="/stores" element={<Stores />} />
               <Route path="/stores/:id" element={<StoreDetail />} />
               <Route path="/cart" element={<Cart />} />
+              <Route path="/wishlist" element={<Wishlist />} />
+              {/* Catch-all route for 404 */}
+              <Route path="*" element={<NotFound />} />
             </Routes>
           </main>
           <Footer />

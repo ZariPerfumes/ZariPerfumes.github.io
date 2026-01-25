@@ -6,51 +6,60 @@ interface AppContextType {
   lang: Language;
   setLang: (l: Language) => void;
   cart: CartItem[];
+  wishlist: Product[];
   addToCart: (p: Product) => void;
   removeFromCart: (productId: string) => void;
   updateQuantity: (productId: string, delta: number) => void;
+  toggleWishlist: (product: Product) => void;
   clearCart: () => void;
   isSearchOpen: boolean;
   setIsSearchOpen: (b: boolean) => void;
   searchQuery: string;
   setSearchQuery: (s: string) => void;
+  setWishlist: React.Dispatch<React.SetStateAction<Product[]>>;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  // Initialize language from localStorage or default to 'en'
   const [lang, setLang] = useState<Language>(() => {
     const savedLang = localStorage.getItem('zari_lang');
     return (savedLang as Language) || 'en';
   });
 
-  // Initialize cart from localStorage or default to empty array
   const [cart, setCart] = useState<CartItem[]>(() => {
     const savedCart = localStorage.getItem('zari_cart');
     return savedCart ? JSON.parse(savedCart) : [];
   });
 
+  const [wishlist, setWishlist] = useState<Product[]>(() => {
+    const savedWishlist = localStorage.getItem('zari_wishlist');
+    return savedWishlist ? JSON.parse(savedWishlist) : [];
+  });
+
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
 
-  // Save cart to localStorage whenever it changes
   useEffect(() => {
     localStorage.setItem('zari_cart', JSON.stringify(cart));
   }, [cart]);
 
-  // Save language to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem('zari_wishlist', JSON.stringify(wishlist));
+  }, [wishlist]);
+
   useEffect(() => {
     localStorage.setItem('zari_lang', lang);
   }, [lang]);
 
   const addToCart = (product: Product) => {
-    setCart(prev => {
-      const existing = prev.find(item => item.id === product.id);
-      if (existing) return prev;
-      return [...prev, { ...product, quantity: 1 }];
-    });
-  };
+  setCart(prev => {
+    const existing = prev.find(item => item.id === product.id);
+    if (existing) return prev;
+    return [...prev, { ...product, quantity: 1 }];
+  });
+  setWishlist(prev => prev.filter(item => item.id !== product.id));
+};
 
   const removeFromCart = (productId: string) => {
     setCart(prev => prev.filter(item => item.id !== productId));
@@ -63,7 +72,15 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         return newQty > 0 ? { ...item, quantity: newQty } : item;
       }
       return item;
-    }));
+    } ));
+  };
+
+  const toggleWishlist = (product: Product) => {
+    setWishlist(prev => {
+      const isFav = prev.find(item => item.id === product.id);
+      if (isFav) return prev.filter(item => item.id !== product.id);
+      return [...prev, product];
+    });
   };
 
   const clearCart = () => {
@@ -72,14 +89,15 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   };
 
   return (
-    <AppContext.Provider value={{
-      lang, setLang, cart, addToCart, removeFromCart, updateQuantity, clearCart,
-      isSearchOpen, setIsSearchOpen, searchQuery, setSearchQuery
-    }}>
-      <div dir={lang === 'ar' ? 'rtl' : 'ltr'} className={lang === 'ar' ? 'font-arabic' : ''}>
-        {children}
-      </div>
-    </AppContext.Provider>
+  <AppContext.Provider value={{
+    lang, setLang, cart, wishlist, addToCart, removeFromCart, 
+    updateQuantity, toggleWishlist, clearCart, setWishlist, // removed the duplicate 'wishlist'
+    isSearchOpen, setIsSearchOpen, searchQuery, setSearchQuery
+  }}>
+    <div dir={lang === 'ar' ? 'rtl' : 'ltr'} className={lang === 'ar' ? 'font-arabic' : ''}>
+      {children}
+    </div>
+  </AppContext.Provider>
   );
 };
 

@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useApp } from '../AppContext';
@@ -9,7 +8,7 @@ import logoImg from '../logo.png';
 const LOGO_URL = logoImg;
 
 const Header: React.FC = () => {
-  const { lang, setLang, cart, isSearchOpen, setIsSearchOpen, searchQuery, setSearchQuery } = useApp();
+  const { lang, setLang, cart, wishlist, isSearchOpen, setIsSearchOpen, searchQuery, setSearchQuery } = useApp();
   const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
 
@@ -27,7 +26,6 @@ const Header: React.FC = () => {
   };
 
   const isHome = location.pathname === '/';
-  // The header should be solid if we are NOT on home, OR if we have scrolled on home.
   const isSolid = !isHome || isScrolled;
   
   const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
@@ -46,19 +44,13 @@ const Header: React.FC = () => {
   return (
     <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-in-out ${isSolid ? 'bg-white shadow-xl py-3 border-b border-gray-100' : 'bg-transparent py-6'}`}>
       <div className="container mx-auto px-6 flex items-center justify-between">
-        {/* Logo Section */}
         <Link to="/" className="flex items-center gap-3 group">
           <div className={`transition-all duration-500 overflow-hidden ${isSolid ? 'w-10 h-10' : 'w-12 h-12'}`}>
-            <img 
-            src={LOGO_URL} 
-            alt="Zari Logo" 
-            className="w-full h-full object-contain" 
-            />
+            <img src={LOGO_URL} alt="Zari Logo" className="w-full h-full object-contain" />
           </div>
           <span className={`text-3xl font-black tracking-tighter transition-colors duration-500 ${isSolid ? 'text-purple-600' : 'text-white'}`}>{lang === 'en' ? 'Zari' : 'زري'}</span>
         </Link>
 
-        {/* Nav */}
         <nav className="hidden md:flex items-center gap-10">
           {navItems.map(item => (
             <Link 
@@ -80,14 +72,29 @@ const Header: React.FC = () => {
           ))}
         </nav>
 
-        {/* Actions */}
-        <div className="flex items-center gap-5">
+        <div className="flex items-center gap-2 md:gap-4">
           <button 
             onClick={() => setIsSearchOpen(!isSearchOpen)}
             className={`p-3 rounded-2xl transition-all duration-500 ${isSolid ? 'hover:bg-purple-50 text-gray-900' : 'hover:bg-white/20 text-white'}`}
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
           </button>
+
+          {/* Luxurious Wishlist Link */}
+          <Link 
+            to="/wishlist" 
+            className={`p-3 rounded-2xl relative transition-all duration-500 ${isSolid ? 'hover:bg-red-50 text-gray-900' : 'hover:bg-white/20 text-white'}`}
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+            </svg>
+            {wishlist.length > 0 && (
+              <span className="absolute top-2 right-2 flex h-3 w-3">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+              </span>
+            )}
+          </Link>
           
           <button 
             onClick={() => setLang(lang === 'en' ? 'ar' : 'en')}
@@ -99,7 +106,6 @@ const Header: React.FC = () => {
         </div>
       </div>
 
-      {/* Search Popdown */}
       {isSearchOpen && (
         <div className="absolute top-full left-0 right-0 bg-white shadow-2xl border-t border-gray-100 animate-slide-down origin-top">
           <div className="container mx-auto p-10">
