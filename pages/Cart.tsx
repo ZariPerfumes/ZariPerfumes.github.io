@@ -123,7 +123,7 @@ const Cart: React.FC = () => {
   };
 
   return (
-    <div className="pt-[73px] pb-20 bg-gray-50/50 min-h-screen">
+    <div className="pt-[64px] pb-20 bg-gray-50/50 min-h-screen">
       <div className="h-[300px] mb-12 bg-gradient-to-br from-purple-950 to-purple-800 flex items-center justify-center text-white text-center">
         <h1 className="text-7xl font-black tracking-tighter">{t('cart')}</h1>
       </div>
@@ -150,7 +150,7 @@ const Cart: React.FC = () => {
                        >
                          {item.quantity === 1 ? (
                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19(7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
                            </svg>
                          ) : '-'}
                        </button>
@@ -187,7 +187,14 @@ const Cart: React.FC = () => {
                   <h4 className="text-2xl font-black text-purple-900 mb-4">{lang === 'en' ? 'Close Checkout?' : 'إغلاق الدفع؟'}</h4>
                   <p className="text-gray-600 font-bold mb-8">{lang === 'en' ? 'Your cart items will be saved.' : 'سيتم حفظ منتجاتك في السلة.'}</p>
                   <div className="flex flex-col gap-3">
-                    <button onClick={() => setShowCheckout(false)} className="w-full bg-purple-600 text-white py-4 rounded-2xl font-black uppercase">{lang === 'en' ? 'Close & Save' : 'إغلاق وحفظ'}</button>
+                    <button 
+  onClick={() => {
+    setShowCheckout(false);
+    setShowExitConfirm(false);
+  }} 
+  className="w-full bg-purple-600 text-white py-4 rounded-2xl font-black uppercase"
+>
+{lang === 'en' ? 'Close & Save' : 'إغلاق وحفظ'}</button>
                     <button onClick={() => setShowExitConfirm(false)} className="w-full bg-gray-100 text-gray-900 py-4 rounded-2xl font-black uppercase">{lang === 'en' ? 'Cancel' : 'إلغاء'}</button>
                   </div>
                 </div>
@@ -222,8 +229,20 @@ const Cart: React.FC = () => {
               {step === 1 && (
                 <div className="space-y-8">
                   <div className="grid grid-cols-2 gap-6">
-                    <div onClick={() => setMethod('pickup')} className={`p-8 rounded-[32px] border-4 font-black cursor-pointer flex flex-col items-center justify-center text-center transition-all ${method === 'pickup' ? 'border-purple-600 bg-purple-50' : 'border-gray-50 bg-white'}`}>
+                    <div 
+                      onClick={() => setMethod('pickup')} 
+                      className={`p-8 rounded-[32px] border-4 font-black cursor-pointer flex flex-col items-center justify-center text-center transition-all ${method === 'pickup' ? 'border-purple-600 bg-purple-50' : 'border-gray-50 bg-white'}`}
+                    >
                       <span className="text-xl">{t('pickup')}</span>
+                      <a 
+                        href="https://maps.app.goo.gl/swKTtrGjYJmfWN5CA" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()} 
+                        className="mt-3 px-4 py-1.5 bg-purple-100 text-purple-700 rounded-full text-[10px] uppercase tracking-wider hover:bg-purple-200 transition-colors"
+                      >
+                        {lang === 'en' ? 'See Location' : 'مشاهدة الموقع'}
+                      </a>
                     </div>
                     <button type="button" onClick={() => setMethod('delivery')} className={`p-8 rounded-[32px] border-4 font-black transition-all ${method === 'delivery' ? 'border-purple-600 bg-purple-50' : 'border-gray-50 bg-white'}`}>
                       {t('delivery')}

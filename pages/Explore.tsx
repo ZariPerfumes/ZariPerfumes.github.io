@@ -35,7 +35,7 @@ const Explore: React.FC = () => {
   }, [storeFilter, categoryFilter, sortBy, lang]);
 
   return (
-    <div className="pt-[73px] pb-20">
+    <div className="pt-[64px] pb-20">
       {/* Banner */}
       <div className="relative h-[300px] mb-12 flex items-center justify-center">
         <img src="images/explore.jpg" className="absolute inset-0 w-full h-full object-cover" alt="Explore" />
