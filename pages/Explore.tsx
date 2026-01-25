@@ -38,7 +38,7 @@ const Explore: React.FC = () => {
     <div className="pt-[73px] pb-20">
       {/* Banner */}
       <div className="relative h-[300px] mb-12 flex items-center justify-center">
-        <img src="images/explore-banner.jpg" className="absolute inset-0 w-full h-full object-cover" alt="Explore" />
+        <img src="images/explore.jpg" className="absolute inset-0 w-full h-full object-cover" alt="Explore" />
         <div className="absolute inset-0 bg-black/50"></div>
         <div className="relative text-center text-white">
           <h1 className="text-6xl font-black mb-2">{t('explore')}</h1>

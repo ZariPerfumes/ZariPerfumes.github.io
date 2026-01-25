@@ -122,59 +122,59 @@ const Cart: React.FC = () => {
     navigate('/');
   };
 
-  if (cart.length === 0 && !showCheckout) {
-    return (
-      <div className="pt-40 pb-20 container mx-auto px-4 text-center min-h-[70vh] flex flex-col items-center justify-center">
-        <h2 className="text-4xl font-black mb-4 text-purple-900">{t('emptyCart')}</h2>
-        <Link to="/explore" className="bg-purple-600 text-white px-12 py-5 rounded-full font-black text-xl shadow-xl">{t('continueShopping')} →</Link>
-      </div>
-    );
-  }
-
   return (
-    <div className="pt-24 pb-20 bg-gray-50/50 min-h-screen">
+    <div className="pt-[73px] pb-20 bg-gray-50/50 min-h-screen">
       <div className="h-[300px] mb-12 bg-gradient-to-br from-purple-950 to-purple-800 flex items-center justify-center text-white text-center">
         <h1 className="text-7xl font-black tracking-tighter">{t('cart')}</h1>
       </div>
 
-      <div className="container mx-auto px-4 lg:flex gap-12">
-        <div className="lg:w-2/3 space-y-6">
-          {cart.map(item => (
-            <div key={item.id} className="bg-white p-8 rounded-[32px] shadow-sm border border-purple-50 flex items-center gap-8">
-              <img src={item.image} className="w-32 h-32 rounded-3xl object-cover" alt={item.nameEn} />
-              <div className="flex-grow">
-                <h3 className="text-2xl font-black text-gray-900">{lang === 'en' ? item.nameEn : item.nameAr}</h3>
-                <p className="text-purple-600 font-bold text-lg">{item.price} AED</p>
-                <div className="flex items-center bg-purple-50 w-fit rounded-2xl p-1.5 mt-4 gap-6">
-                   <button 
-                     onClick={() => item.quantity === 1 ? removeFromCart(item.id) : updateQuantity(item.id, -1)} 
-                     className={`p-2 transition-colors flex items-center justify-center ${item.quantity === 1 ? 'text-red-500' : 'text-purple-600 font-black text-xl'}`}
-                   >
-                     {item.quantity === 1 ? (
-                       <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-                       </svg>
-                     ) : '-'}
-                   </button>
-                   <span className="font-black text-purple-900 text-xl">{item.quantity}</span>
-                   <button onClick={() => updateQuantity(item.id, 1)} className="p-2 text-purple-600 font-black text-xl">+</button>
-                </div>
-              </div>
-              <p className="text-3xl font-black text-purple-900">{item.price * item.quantity} AED</p>
-            </div>
-          ))}
-        </div>
-
-        <div className="lg:w-1/3 mt-12 lg:mt-0">
-          <div className="bg-white p-10 rounded-[48px] shadow-2xl border border-purple-100 sticky top-32">
-            <h3 className="text-3xl font-black mb-10">{t('orderSummary')}</h3>
-            <div className="flex justify-between items-center mb-10 text-2xl">
-               <span className="font-bold">{t('total')}</span>
-               <span className="font-black text-purple-600">{total} AED</span>
-            </div>
-            <button onClick={() => setShowCheckout(true)} className="w-full bg-purple-600 text-white py-6 rounded-[28px] font-black text-2xl shadow-xl active:scale-95 transition-all">{t('proceedToCheckout')} →</button>
+      <div className="container mx-auto px-4">
+        {cart.length === 0 && !showCheckout ? (
+          <div className="py-20 text-center flex flex-col items-center justify-center">
+            <h2 className="text-4xl font-black mb-6 text-purple-900">{t('emptyCart')}</h2>
+            <Link to="/explore" className="bg-purple-600 text-white px-12 py-5 rounded-full font-black text-xl shadow-xl">{t('continueShopping')} →</Link>
           </div>
-        </div>
+        ) : (
+          <div className="lg:flex gap-12">
+            <div className="lg:w-2/3 space-y-6">
+              {cart.map(item => (
+                <div key={item.id} className="bg-white p-8 rounded-[32px] shadow-sm border border-purple-50 flex items-center gap-8">
+                  <img src={item.image} className="w-32 h-32 rounded-3xl object-cover" alt={item.nameEn} />
+                  <div className="flex-grow">
+                    <h3 className="text-2xl font-black text-gray-900">{lang === 'en' ? item.nameEn : item.nameAr}</h3>
+                    <p className="text-purple-600 font-bold text-lg">{item.price} AED</p>
+                    <div className="flex items-center bg-purple-50 w-fit rounded-2xl p-1.5 mt-4 gap-6">
+                       <button 
+                         onClick={() => item.quantity === 1 ? removeFromCart(item.id) : updateQuantity(item.id, -1)} 
+                         className={`p-2 transition-colors flex items-center justify-center ${item.quantity === 1 ? 'text-red-500' : 'text-purple-600 font-black text-xl'}`}
+                       >
+                         {item.quantity === 1 ? (
+                           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                           </svg>
+                         ) : '-'}
+                       </button>
+                       <span className="font-black text-purple-900 text-xl">{item.quantity}</span>
+                       <button onClick={() => updateQuantity(item.id, 1)} className="p-2 text-purple-600 font-black text-xl">+</button>
+                    </div>
+                  </div>
+                  <p className="text-3xl font-black text-purple-900">{item.price * item.quantity} AED</p>
+                </div>
+              ))}
+            </div>
+
+            <div className="lg:w-1/3 mt-12 lg:mt-0">
+              <div className="bg-white p-10 rounded-[48px] shadow-2xl border border-purple-100 sticky top-32">
+                <h3 className="text-3xl font-black mb-10">{t('orderSummary')}</h3>
+                <div className="flex justify-between items-center mb-10 text-2xl">
+                   <span className="font-bold">{t('total')}</span>
+                   <span className="font-black text-purple-600">{total} AED</span>
+                </div>
+                <button onClick={() => setShowCheckout(true)} className="w-full bg-purple-600 text-white py-6 rounded-[28px] font-black text-2xl shadow-xl active:scale-95 transition-all">{t('proceedToCheckout')} →</button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
       {showCheckout && (

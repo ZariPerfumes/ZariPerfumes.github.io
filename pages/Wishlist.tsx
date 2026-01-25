@@ -83,7 +83,7 @@ const Wishlist: React.FC = () => {
             placeholder={lang === 'en' ? "Name your wishlist..." : "اسمّ القائمة..."}
             className="bg-transparent text-center text-4xl font-bold text-gray-900 mb-4 tracking-tight outline-none placeholder:text-gray-200 w-full"
             value={listName}
-            onChange={(e) => setListName(e.target.value)}
+            onChange={(e) => setListName(e.target.value.slice(0, 15))}
           />
           <div className="w-16 h-1 bg-[#9333EA] mx-auto mb-8 rounded-full"></div>
           

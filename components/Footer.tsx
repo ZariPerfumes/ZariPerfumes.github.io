@@ -3,11 +3,11 @@ import { Link } from 'react-router-dom';
 import { useApp } from '../AppContext';
 import { UI_STRINGS } from '../translations';
 import { STORES } from '../data';
-import logoImg from '../images/logo.png';
-import instagramIcon from '../images/instagram.png';
-import tiktokIcon from '../images/tiktok.png';
-import snapchatIcon from '../images/snapchat.png';
-import whatsappIcon from '../images/whatsapp.png';
+import logoImg from '..images/logo.png';
+import instagramIcon from '..images/instagram.png';
+import tiktokIcon from '..images/tiktok.png';
+import snapchatIcon from '..images/snapchat.png';
+import whatsappIcon from '..images/whatsapp.png';
 
 const LOGO_URL = logoImg;
 

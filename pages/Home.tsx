@@ -17,7 +17,7 @@ const Home: React.FC = () => {
       {/* Hero */}
       <section className="relative h-screen w-full flex items-center justify-center overflow-hidden">
         <img 
-          src="images/hero.jpg" 
+          src="images/home.jpg" 
           className="absolute inset-0 w-full h-full object-cover" 
           alt="Banner" 
         />
