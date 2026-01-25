@@ -63,7 +63,7 @@ export const WORKSHOP: Workshop = {
   detailsEn: 'Join us for an exclusive evening of fragrance discovery...',
   detailsAr: 'انضم إلينا في أمسية حصرية لاكتشاف العطور. تعلم فن صناعة العطور من الخبراء وابتكر رائحتك الخاصة لتأخذها معك إلى المنزل.',
   image: 'images/workshop.jpg',
-  link: 'https://zariperfumes.github.io/#/'
+  link: 'https://zariperfumes.github.io/#/404'
 };
 
 export const DELIVERY_COSTS = [

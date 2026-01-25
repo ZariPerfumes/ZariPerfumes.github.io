@@ -3,7 +3,11 @@ import { Link } from 'react-router-dom';
 import { useApp } from '../AppContext';
 import { UI_STRINGS } from '../translations';
 import { STORES } from '../data';
-import logoImg from '../logo.png';
+import logoImg from '../images/logo.png';
+import instagramIcon from '../images/instagram.png';
+import tiktokIcon from '../images/tiktok.png';
+import snapchatIcon from '../images/snapchat.png';
+import whatsappIcon from '../images/whatsapp.png';
 
 const LOGO_URL = logoImg;
 
@@ -53,19 +57,22 @@ const Footer: React.FC = () => {
             <h4 className="text-lg font-black uppercase tracking-widest text-purple-300">{t('contactUs')}</h4>
             <div className="space-y-3">
               <a href="https://instagram.com/zari.aj25" target="_blank" className="flex items-center gap-3 text-white/70 hover:text-white transition-all font-medium">
-                <img src="instagram.png" className="w-5 h-5" alt="insta" />
-                <span>@zari.aj25</span>
+               <img src={instagramIcon} className="w-5 h-5" alt="insta" />
+               <span>@zari.aj25</span>
               </a>
+
               <a href="https://tiktok.com/@zari.aj25" target="_blank" className="flex items-center gap-3 text-white/70 hover:text-white transition-all font-medium">
-                <img src="tiktok.png" className="w-5 h-5" alt="tiktok" />
-                <span>@zari.aj25</span>
+               <img src={tiktokIcon} className="w-5 h-5" alt="tiktok" />
+               <span>@zari.aj25</span>
               </a>
+
               <a href="http://snapchat.com/@zari.aj25" target="_blank" className="flex items-center gap-3 text-white/70 hover:text-white transition-all font-medium">
-                <img src="snapchat.png" className="w-5 h-5" alt="snap" />
-                <span>@zari.aj25</span>
+               <img src={snapchatIcon} className="w-5 h-5" alt="snap" />
+               <span>@zari.aj25</span>
               </a>
+
               <a href="https://wa.me/971588537024" target="_blank" className="flex items-center gap-3 text-white/70 hover:text-white transition-all font-medium">
-                <img src="whatsapp.png" className="w-5 h-5" alt="wa" />
+                <img src={whatsappIcon} className="w-5 h-5" alt="wa" />
                 <span dir="ltr">+971 58 853 7024</span>
               </a>
             </div>
@@ -76,13 +83,13 @@ const Footer: React.FC = () => {
             <h4 className="text-lg font-black uppercase tracking-widest text-purple-300">{t('followUs')}</h4>
             <div className="flex flex-wrap gap-4">
                 <a href="https://instagram.com/zari.aj25" target="_blank" className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center hover:bg-purple-600 transition-all shadow-lg active:scale-90">
-                    <img src="instagram.png" className="w-6 h-6" alt="insta" />
+                    <img src={instagramIcon} className="w-6 h-6" alt="insta" />
                 </a>
                 <a href="https://tiktok.com/@zari.aj25" target="_blank" className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center hover:bg-purple-600 transition-all shadow-lg active:scale-90">
-                    <img src="tiktok.png" className="w-6 h-6" alt="tiktok" />
+                    <img src={tiktokIcon} className="w-6 h-6" alt="tiktok" />
                 </a>
                 <a href="http://snapchat.com/@zari.aj25" target="_blank" className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center hover:bg-purple-600 transition-all shadow-lg active:scale-90">
-                    <img src="snapchat.png" className="w-6 h-6" alt="snap" />
+                    <img src={snapchatIcon} className="w-6 h-6" alt="snap" />
                 </a>
             </div>
           </div>

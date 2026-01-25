@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { useApp } from '../AppContext';
 import { UI_STRINGS } from '../translations';
 import { PRODUCTS } from '../data';
-import logoImg from '../logo.png';
+import logoImg from '../images//logo.png';
 
 const LOGO_URL = logoImg;
 
