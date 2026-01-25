@@ -7,13 +7,17 @@ import { motion, AnimatePresence } from 'framer-motion';
 import toast from 'react-hot-toast';
 
 const Wishlist: React.FC = () => {
-  const { wishlist, setWishlist, addToCart, removeFromCart, lang } = useApp();
+  const { wishlist, setWishlist, addToCart, lang } = useApp();
   const [showConfirm, setShowConfirm] = useState(false);
   const [showSharedBanner, setShowSharedBanner] = useState(false);
   const [sharedName, setSharedName] = useState('');
   const [listName, setListName] = useState('');
   const [isCopied, setIsCopied] = useState(false);
   const [searchParams] = useSearchParams();
+
+  useEffect(() => {
+    document.title = lang === 'en' ? 'Zari Perfumes | Wishlist' : 'عطور زاري | المفضلة';
+  }, [lang]);
 
   useEffect(() => {
     const itemIds = searchParams.get('items');
@@ -36,7 +40,6 @@ const Wishlist: React.FC = () => {
 
   const handleAddAllToCart = () => {
     if (wishlist.length === 0) return;
-    const previousWishlist = [...wishlist];
     wishlist.forEach((p) => addToCart(p));
     toast.success(lang === 'en' ? 'MOVED TO BAG' : 'تم النقل للسلة', {
       style: { background: '#1a1a1a', color: '#fff', border: '1px solid #9333EA' }
@@ -114,8 +117,8 @@ const Wishlist: React.FC = () => {
         <AnimatePresence mode="popLayout">
           {wishlist.length === 0 ? (
             <motion.div key="empty" className="text-center py-20">
-              <p className="text-gray-400 font-medium mb-8 text-lg">Your collection is empty.</p>
-              <a href="#/explore" className="inline-block border-2 border-[#9333EA] text-[#9333EA] px-8 py-3 rounded-xl font-black uppercase tracking-widest text-xs">Explore</a>
+              <p className="text-gray-400 font-medium mb-8 text-lg">{lang === 'en' ? 'Your collection is empty.' : 'مجموعتك فارغة.'}</p>
+              <a href="#/explore" className="inline-block border-2 border-[#9333EA] text-[#9333EA] px-8 py-3 rounded-xl font-black uppercase tracking-widest text-xs">{lang === 'en' ? 'Explore' : 'استكشف'}</a>
             </motion.div>
           ) : (
             <motion.div layout className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
@@ -133,10 +136,10 @@ const Wishlist: React.FC = () => {
             <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
               <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setShowConfirm(false)} className="absolute inset-0 bg-black/40 backdrop-blur-md" />
               <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.9, opacity: 0 }} className="relative bg-white p-8 rounded-[32px] max-w-sm w-full text-center shadow-2xl">
-                <h3 className="text-xl font-bold mb-2">Clear Wishlist?</h3>
+                <h3 className="text-xl font-bold mb-2">{lang === 'en' ? 'Clear Wishlist?' : 'مسح قائمة الرغبات؟'}</h3>
                 <div className="flex flex-col gap-3 mt-8">
-                  <button onClick={() => { setWishlist([]); setShowConfirm(false); }} className="w-full bg-red-500 text-white py-4 rounded-2xl font-bold uppercase text-[10px] tracking-widest">Clear Everything</button>
-                  <button onClick={() => setShowConfirm(false)} className="w-full bg-gray-100 py-4 rounded-2xl font-bold uppercase text-[10px] tracking-widest">Cancel</button>
+                  <button onClick={() => { setWishlist([]); setShowConfirm(false); }} className="w-full bg-red-500 text-white py-4 rounded-2xl font-bold uppercase text-[10px] tracking-widest">{lang === 'en' ? 'Clear Everything' : 'مسح كل شيء'}</button>
+                  <button onClick={() => setShowConfirm(false)} className="w-full bg-gray-100 py-4 rounded-2xl font-bold uppercase text-[10px] tracking-widest">{lang === 'en' ? 'Cancel' : 'إلغاء'}</button>
                 </div>
               </motion.div>
             </div>

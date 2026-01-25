@@ -1,8 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { useApp } from '../AppContext';
 
 const NotFound: React.FC = () => {
+  const { lang } = useApp();
+
+  useEffect(() => {
+    document.title = lang === 'en' ? 'Zari Perfumes | Error' : 'عطور زاري | مشكلة';
+  }, [lang]);
+
   return (
     <div className="min-h-screen bg-[#FAFAFA] flex items-center justify-center px-6">
       <motion.div 
@@ -17,7 +24,7 @@ const NotFound: React.FC = () => {
           </span>
         </h1>
         <p className="text-gray-500 mt-8 mb-12 font-bold tracking-widest uppercase text-xs">
-          The page you are looking for does not exist.
+          The page you are looking for does not exist
         </p>
         <Link 
           to="/" 

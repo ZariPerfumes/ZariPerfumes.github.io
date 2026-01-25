@@ -1,5 +1,4 @@
-
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { useApp } from '../AppContext';
 import { UI_STRINGS } from '../translations';
 import { PRODUCTS, STORES } from '../data';
@@ -12,6 +11,10 @@ const Explore: React.FC = () => {
   const [storeFilter, setStoreFilter] = useState('all');
   const [categoryFilter, setCategoryFilter] = useState('all');
   const [sortBy, setSortBy] = useState('name');
+
+  useEffect(() => {
+    document.title = lang === 'en' ? 'Zari Perfumes | Explore' : 'عطور زاري | استكشف';
+  }, [lang]);
 
   const filteredProducts = useMemo(() => {
     let result = PRODUCTS.filter(p => {
@@ -32,7 +35,7 @@ const Explore: React.FC = () => {
   }, [storeFilter, categoryFilter, sortBy, lang]);
 
   return (
-    <div className="pt-24 pb-20">
+    <div className="pt-[73px] pb-20">
       {/* Banner */}
       <div className="relative h-[300px] mb-12 flex items-center justify-center">
         <img src="images/explore-banner.jpg" className="absolute inset-0 w-full h-full object-cover" alt="Explore" />

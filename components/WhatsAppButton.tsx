@@ -1,4 +1,7 @@
+import { useApp } from '../AppContext';
+
 export default function WhatsAppButton() {
+  const { lang } = useApp();
   const whatsappUrl = "https://wa.me/971588537024";
 
   return (
@@ -30,7 +33,7 @@ export default function WhatsAppButton() {
         fontWeight: '500',
         textShadow: '0 1px 2px rgba(0,0,0,0.1)'
       }}>
-        Need Help?
+        {lang === 'en' ? 'Need Help?' : 'تحتاج مساعدة؟'}
       </span>
       <div style={{
         width: '55px',

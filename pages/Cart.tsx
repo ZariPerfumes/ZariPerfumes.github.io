@@ -68,6 +68,10 @@ const Cart: React.FC = () => {
   const isStep2Valid = validatePhone(phone) && validateEmail(email) && (method === 'pickup' || (locationDetails.street !== '' && locationDetails.villa !== ''));
 
   useEffect(() => {
+    document.title = lang === 'en' ? 'Zari Perfumes | Cart' : 'عطور زاري | السلة';
+  }, [lang]);
+
+  useEffect(() => {
     if (emirate && CITY_COORDS[emirate]) {
       setMapCoords(CITY_COORDS[emirate]);
       setMapZoom(12);
@@ -196,8 +200,8 @@ const Cart: React.FC = () => {
                   <h4 className="text-2xl font-black text-red-600 mb-4">{lang === 'en' ? 'Clear Everything?' : 'مسح كل شيء؟'}</h4>
                   <p className="text-gray-600 font-bold mb-8">{lang === 'en' ? 'This will delete your cart and reset the app.' : 'سيتم حذف السلة وإعادة ضبط التطبيق.'}</p>
                   <div className="flex flex-col gap-3">
-                    <button onClick={handleFullReset} className="w-full bg-red-600 text-white py-4 rounded-2xl font-black uppercase">Yes, Clear All</button>
-                    <button onClick={() => setShowCancelConfirm(false)} className="w-full bg-gray-100 text-gray-900 py-4 rounded-2xl font-black uppercase">No, Go Back</button>
+                    <button onClick={handleFullReset} className="w-full bg-red-600 text-white py-4 rounded-2xl font-black uppercase">{lang === 'en' ? 'Yes, Clear All' : 'نعم، مسح الكل'}</button>
+                    <button onClick={() => setShowCancelConfirm(false)} className="w-full bg-gray-100 text-gray-900 py-4 rounded-2xl font-black uppercase">{lang === 'en' ? 'No, Go Back' : 'لا، العودة'}</button>
                   </div>
                 </div>
               </div>
@@ -303,9 +307,9 @@ const Cart: React.FC = () => {
 
                   <div className="flex flex-col gap-4 max-w-xl mx-auto">
                     <button onClick={() => setStep(2)} className="w-full bg-gray-100 text-gray-900 py-4 rounded-2xl font-black uppercase tracking-tight">← {lang === 'en' ? 'Back to Details' : 'رجوع للتفاصيل'}</button>
-                    <a href="https://form.jotform.com/zariperfumes/receipt-form" target="_blank" rel="noopener noreferrer" className="w-full bg-emerald-600 text-white py-6 rounded-3xl font-black text-2xl shadow-xl">UPLOAD SCREENSHOT →</a>
+                    <a href="https://form.jotform.com/zariperfumes/receipt-form" target="_blank" rel="noopener noreferrer" className="w-full bg-emerald-600 text-white py-6 rounded-3xl font-black text-2xl shadow-xl">{lang === 'en' ? 'UPLOAD SCREENSHOT →' : 'تحميل لقطة شاشة →'}</a>
                     <button onClick={() => navigate('/explore')} className="w-full border-4 border-purple-600 text-purple-600 py-4 rounded-2xl font-black uppercase">{lang === 'en' ? 'Continue Shopping (Save)' : 'متابعة التسوق (حفظ)'}</button>
-                    <button onClick={() => setShowCancelConfirm(true)} className="w-full text-red-500 font-black uppercase text-sm mt-4 hover:underline">Cancel Order & Clear Cart</button>
+                    <button onClick={() => setShowCancelConfirm(true)} className="w-full text-red-500 font-black uppercase text-sm mt-4 hover:underline">{lang === 'en' ? 'Cancel Order & Clear Cart' : 'إلغاء الطلب ومسح السلة'}</button>
                   </div>
                 </div>
               )}
