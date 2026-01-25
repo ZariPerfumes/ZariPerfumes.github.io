@@ -55,7 +55,7 @@ const Header: React.FC = () => {
             className="w-full h-full object-contain" 
             />
           </div>
-          <span className={`text-3xl font-black tracking-tighter transition-colors duration-500 ${isSolid ? 'text-purple-600' : 'text-white'}`}>Zari</span>
+          <span className={`text-3xl font-black tracking-tighter transition-colors duration-500 ${isSolid ? 'text-purple-600' : 'text-white'}`}>{lang === 'en' ? 'Zari' : 'زري'}</span>
         </Link>
 
         {/* Nav */}

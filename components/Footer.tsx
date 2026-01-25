@@ -27,7 +27,7 @@ const Footer: React.FC = () => {
               <div className="w-10 h-10 bg-white rounded-xl p-1.5 flex items-center justify-center shadow-lg transition-transform group-hover:scale-110">
                 <img src={LOGO_URL} alt="Zari Logo" className="w-full h-full object-contain" />
               </div>
-              <span className="text-2xl font-black tracking-tighter">Zari</span>
+              <span className="text-2xl font-black tracking-tighter">{lang === 'en' ? 'Zari' : 'زري'}</span>
             </Link>
             <p className="text-white/70 leading-relaxed font-medium">
               {t('footerAbout')}
@@ -83,9 +83,6 @@ const Footer: React.FC = () => {
                 </a>
                 <a href="http://snapchat.com/@zari.aj25" target="_blank" className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center hover:bg-purple-600 transition-all shadow-lg active:scale-90">
                     <img src="snapchat.png" className="w-6 h-6" alt="snap" />
-                </a>
-                <a href="https://wa.me/971588537024" target="_blank" className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center hover:bg-purple-600 transition-all shadow-lg active:scale-90">
-                    <img src="whatsapp.png" className="w-6 h-6" alt="wa" />
                 </a>
             </div>
           </div>

@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import { AppProvider } from './AppContext';
@@ -9,6 +8,7 @@ import Explore from './pages/Explore';
 import Stores from './pages/Stores';
 import StoreDetail from './pages/StoreDetail';
 import Cart from './pages/Cart';
+import WhatsAppButton from './components/WhatsAppButton';
 import 'leaflet/dist/leaflet.css';
 
 const App: React.FC = () => {
@@ -27,6 +27,7 @@ const App: React.FC = () => {
             </Routes>
           </main>
           <Footer />
+          <WhatsAppButton />
         </div>
       </Router>
     </AppProvider>
