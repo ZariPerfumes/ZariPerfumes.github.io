@@ -108,12 +108,6 @@ const Header: React.FC = () => {
                     </Link>
                   </motion.div>
                 ))}
-                <motion.div variants={itemVars}>
-                  <Link to="/cart" className="text-2xl font-black uppercase tracking-[0.2em] flex justify-between items-center text-white">
-                    <span className={lang === 'ar' ? 'order-2' : ''}>{t('cart')}</span>
-                    {totalItems > 0 && <span className="bg-white text-purple-900 text-[10px] px-3 py-1 rounded-full">{totalItems}</span>}
-                  </Link>
-                </motion.div>
               </motion.div>
               <button
                 onClick={() => setLang(lang === 'en' ? 'ar' : 'en')}
