@@ -25,7 +25,7 @@ const Footer: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           <div className="space-y-4">
             <Link to="/" className="flex items-center gap-3 group">
-              <div className="w-10 h-10 bg-white rounded-xl p-1.5 flex items-center justify-center shadow-lg transition-transform group-hover:scale-110">
+              <div className="w-10 h-10 bg-[#4C0078] rounded-xl p-1.5 flex items-center justify-center shadow-lg transition-transform group-hover:scale-110">
                 <img src={LOGO_URL} alt="Zari Logo" className="w-full h-full object-contain" />
               </div>
               <span className="text-2xl font-black tracking-tighter">{lang === 'en' ? 'Zari' : 'زري'}</span>

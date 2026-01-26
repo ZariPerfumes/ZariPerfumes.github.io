@@ -8,6 +8,7 @@ export interface Product {
   image: string;
   storeId: string;
   category: 'Oud' | 'Perfume' | 'Musk' | 'Oil' | 'Lotion' | 'Dukhoon';
+  stock: number;
 }
 
 export interface Store {

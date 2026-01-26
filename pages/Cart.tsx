@@ -4,7 +4,7 @@ import { useApp } from '../AppContext';
 import { UI_STRINGS } from '../translations';
 import { DELIVERY_COSTS } from '../data';
 import { MapContainer, TileLayer, Marker, useMap, useMapEvents } from 'react-leaflet';
-import html2canvas from 'html2canvas'; // Added for download feature
+import html2canvas from 'html2canvas';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 
@@ -58,6 +58,9 @@ const Cart: React.FC = () => {
   const markerRef = useRef<L.Marker>(null);
   const [locationDetails, setLocationDetails] = useState({ street: '', villa: '' });
 
+  // Stock Warning State
+  const [warningId, setWarningId] = useState<number | null>(null);
+
   const subtotal = cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
   const deliveryFee = method === 'delivery' ? (DELIVERY_COSTS.find(e => e.emirateEn === emirate)?.cities[city as any] || 0) : 0;
   const total = subtotal + deliveryFee;
@@ -79,7 +82,15 @@ const Cart: React.FC = () => {
     }
   }, [emirate]);
 
-  // Download Receipt Logic
+  const handleIncrement = (item: any) => {
+    if (item.quantity < item.stock) {
+      updateQuantity(item.id, 1);
+    } else {
+      setWarningId(item.id);
+      setTimeout(() => setWarningId(null), 1500);
+    }
+  };
+
   const downloadReceipt = async () => {
     if (receiptRef.current) {
       const canvas = await html2canvas(receiptRef.current, {
@@ -145,7 +156,17 @@ const Cart: React.FC = () => {
           <div className="lg:flex gap-12">
             <div className="lg:w-2/3 space-y-6">
               {cart.map(item => (
-                <div key={item.id} className="bg-white p-8 rounded-[32px] shadow-sm border border-purple-50 flex items-center gap-8">
+                <div key={item.id} className="bg-white p-8 rounded-[32px] shadow-sm border border-purple-50 flex items-center gap-8 relative overflow-hidden">
+                  
+                  {/* Animated Red Square Warning Overlay */}
+                  <div className={`absolute inset-0 z-20 flex items-center justify-center p-4 transition-all duration-300 pointer-events-none bg-white/20 backdrop-blur-[2px] ${warningId === item.id ? 'opacity-100 scale-100' : 'opacity-0 scale-90'}`}>
+                    <div className="bg-red-600 text-white p-6 rounded-3xl flex items-center justify-center text-center shadow-2xl border-4 border-white/20">
+                      <span className="font-black text-lg leading-tight uppercase">
+                        {lang === 'en' ? 'Max Stock Reached' : 'وصلت للحد الأقصى'}
+                      </span>
+                    </div>
+                  </div>
+
                   <img src={item.image} className="w-32 h-32 rounded-3xl object-cover" alt={item.nameEn} />
                   <div className="flex-grow">
                     <h3 className="text-2xl font-black text-gray-900">{lang === 'en' ? item.nameEn : item.nameAr}</h3>
@@ -162,7 +183,12 @@ const Cart: React.FC = () => {
                          ) : '-'}
                        </button>
                        <span className="font-black text-purple-900 text-xl">{item.quantity}</span>
-                       <button onClick={() => updateQuantity(item.id, 1)} className="p-2 text-purple-600 font-black text-xl">+</button>
+                       <button 
+                        onClick={() => handleIncrement(item)} 
+                        className={`p-2 font-black text-xl ${item.quantity >= item.stock ? 'text-gray-300' : 'text-purple-600'}`}
+                       >
+                        +
+                       </button>
                     </div>
                   </div>
                   <p className="text-3xl font-black text-purple-900">{item.price * item.quantity} AED</p>
@@ -309,7 +335,6 @@ const Cart: React.FC = () => {
 
               {step === 3 && (
                 <div className="text-center space-y-6 py-2">
-                  {/* Screenshot Instructions */}
                   <div className="flex flex-col items-center gap-2 mb-4 animate-pulse">
                     <div className="flex items-center gap-3">
                       <svg className="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -322,7 +347,6 @@ const Cart: React.FC = () => {
                     </div>
                   </div>
 
-                  {/* Receipt Component */}
                   <div ref={receiptRef} className="bg-white p-12 rounded-[60px] border-[12px] border-purple-100 text-left space-y-8 shadow-2xl max-w-xl mx-auto relative select-none overflow-hidden" onContextMenu={(e) => e.preventDefault()}>
                     <div className="absolute inset-0 z-[5] opacity-[0.06] pointer-events-none grid grid-cols-4 grid-rows-8 gap-4 rotate-[-15deg] scale-150">
                        {Array(60).fill('ZARI PERFUMES').map((text, i) => <span key={i} className="text-2xl font-black whitespace-nowrap text-purple-900">{text}</span>)}
@@ -346,7 +370,6 @@ const Cart: React.FC = () => {
                     </div>
                   </div>
 
-                  {/* Final Actions */}
                   <div className="flex flex-col gap-4 max-w-xl mx-auto">
                     <button onClick={downloadReceipt} className="w-full bg-purple-100 text-purple-900 py-4 rounded-2xl font-black uppercase flex items-center justify-center gap-3 hover:bg-purple-200 transition-all">
                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>

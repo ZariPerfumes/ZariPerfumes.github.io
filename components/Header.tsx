@@ -207,25 +207,23 @@ const Header: React.FC = () => {
               </button>
             </div>
             <Link to="/" className="flex items-center gap-2 group">
-              <motion.img layoutId="logo" src={LOGO_URL} className={isSolid ? 'w-8 h-8' : 'w-10 h-10'} />
+              <img src={LOGO_URL} className={isSolid ? 'w-8 h-10' : 'w-8 h-10'} />
               <span className={`text-2xl font-black tracking-tighter ${isSolid ? 'text-purple-600' : 'text-white'}`}>{lang === 'en' ? 'Zari' : 'زري'}</span>
             </Link>
           </div>
 
           <nav className="hidden md:flex items-center justify-center flex-1">
-            <AnimatePresence mode="wait">
-              <motion.div key={location.pathname} initial={{ y: 8, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: -8, opacity: 0 }} className="flex gap-10">
-                {navItems.map(item => (
-                  <Link
-                    key={item.path}
-                    to={item.path}
-                    className={`relative font-black text-sm uppercase tracking-widest pb-1 border-b-2 transition-all hover:opacity-100 ${isActive(item.path) ? (isSolid ? 'text-purple-600 border-purple-600 opacity-100' : 'text-white border-white opacity-100') : 'border-transparent text-current opacity-60'}`}
-                  >
-                    {item.label}
-                  </Link>
-                ))}
-              </motion.div>
-            </AnimatePresence>
+            <div className="flex gap-10">
+              {navItems.map(item => (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  className={`relative font-black text-sm uppercase tracking-widest pb-1 border-b-2 transition-all hover:opacity-100 ${isActive(item.path) ? (isSolid ? 'text-purple-600 border-purple-600 opacity-100' : 'text-white border-white opacity-100') : 'border-transparent text-current opacity-60'}`}
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </div>
           </nav>
 
           <div className="flex-1 flex items-center justify-end gap-2">
