@@ -12,7 +12,7 @@ export const STORES: Store[] = [
 
 export const PRODUCTS: Product[] = [
   // Ajmal
-  { id: 'aj1', storeId: 'ajmal', nameEn: 'Lotion Dizzy', nameAr: 'لوشن ديزي', price: 55, category: 'Lotion', image: 'images/products/aj1.jpg', stock: 0 },
+  { id: 'aj1', storeId: 'ajmal', nameEn: 'Lotion Dizzy', nameAr: 'لوشن ديزي', price: 55, category: 'Lotion', image: 'images/products/aj1.jpg', stock: 10 },
   { id: 'aj2', storeId: 'ajmal', nameEn: 'Oud Forest', nameAr: 'عود فورست', price: 160, category: 'Oud', image: 'images/products/aj2.jpg', stock: 10 },
   { id: 'aj3', storeId: 'ajmal', nameEn: 'Blue Scented Oud', nameAr: 'عود معطر ازرق', price: 240, category: 'Oud', image: 'images/products/aj3.jpg', stock: 10 },
   { id: 'aj4', storeId: 'ajmal', nameEn: 'Scented Oud Zayed', nameAr: 'عود معطر زايد', price: 245, category: 'Oud', image: 'images/products/aj4.jpg', stock: 10 },
