@@ -3,12 +3,15 @@ import { Link } from 'react-router-dom';
 import { useApp } from '../AppContext';
 import { UI_STRINGS } from '../translations';
 import { STORES } from '../data';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { 
+  faInstagram, 
+  faTiktok, 
+  faSnapchat, 
+  faWhatsapp 
+} from '@fortawesome/free-brands-svg-icons';
 
 const LOGO_URL = "images/logo.png";
-const INSTA_ICON = "images/instagram.png";
-const TIKTOK_ICON = "images/tiktok.png";
-const SNAP_ICON = "images/snapchat.png";
-const WA_ICON = "images/whatsapp.png";
 
 const Footer: React.FC = () => {
   const { lang } = useApp();
@@ -52,19 +55,19 @@ const Footer: React.FC = () => {
             <h4 className="text-lg font-black uppercase tracking-widest text-purple-300">{t('contactUs')}</h4>
             <div className="space-y-3">
               <a href="https://instagram.com/zari.aj25" target="_blank" rel="noreferrer" className="flex items-center gap-3 text-white/70 hover:text-white transition-all font-medium">
-                <img src={INSTA_ICON} className="w-5 h-5" alt="insta" />
+                <FontAwesomeIcon icon={faInstagram} className="w-5 h-5" />
                 <span>@zari.aj25</span>
               </a>
               <a href="https://tiktok.com/@zari.aj25" target="_blank" rel="noreferrer" className="flex items-center gap-3 text-white/70 hover:text-white transition-all font-medium">
-                <img src={TIKTOK_ICON} className="w-5 h-5" alt="tiktok" />
+                <FontAwesomeIcon icon={faTiktok} className="w-5 h-5" />
                 <span>@zari.aj25</span>
               </a>
               <a href="http://snapchat.com/@zari.aj25" target="_blank" rel="noreferrer" className="flex items-center gap-3 text-white/70 hover:text-white transition-all font-medium">
-                <img src={SNAP_ICON} className="w-5 h-5" alt="snap" />
+                <FontAwesomeIcon icon={faSnapchat} className="w-5 h-5" />
                 <span>@zari.aj25</span>
               </a>
               <a href="https://wa.me/971588537024" target="_blank" rel="noreferrer" className="flex items-center gap-3 text-white/70 hover:text-white transition-all font-medium">
-                <img src={WA_ICON} className="w-5 h-5" alt="wa" />
+                <FontAwesomeIcon icon={faWhatsapp} className="w-5 h-5" />
                 <span dir="ltr">+971 58 853 7024</span>
               </a>
             </div>
@@ -74,13 +77,13 @@ const Footer: React.FC = () => {
             <h4 className="text-lg font-black uppercase tracking-widest text-purple-300">{t('followUs')}</h4>
             <div className="flex flex-wrap gap-4">
                 <a href="https://instagram.com/zari.aj25" target="_blank" rel="noreferrer" className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center hover:bg-purple-600 transition-all shadow-lg active:scale-90">
-                    <img src={INSTA_ICON} className="w-6 h-6" alt="insta" />
+                    <FontAwesomeIcon icon={faInstagram} className="text-xl" />
                 </a>
                 <a href="https://tiktok.com/@zari.aj25" target="_blank" rel="noreferrer" className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center hover:bg-purple-600 transition-all shadow-lg active:scale-90">
-                    <img src={TIKTOK_ICON} className="w-6 h-6" alt="tiktok" />
+                    <FontAwesomeIcon icon={faTiktok} className="text-xl" />
                 </a>
                 <a href="http://snapchat.com/@zari.aj25" target="_blank" rel="noreferrer" className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center hover:bg-purple-600 transition-all shadow-lg active:scale-90">
-                    <img src={SNAP_ICON} className="w-6 h-6" alt="snap" />
+                    <FontAwesomeIcon icon={faSnapchat} className="text-xl" />
                 </a>
             </div>
           </div>

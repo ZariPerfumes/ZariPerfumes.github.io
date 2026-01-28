@@ -43,6 +43,8 @@ const Cart: React.FC = () => {
   const [showCheckout, setShowCheckout] = useState(false);
   const [showExitConfirm, setShowExitConfirm] = useState(false);
   const [showCancelConfirm, setShowCancelConfirm] = useState(false);
+  const [showClearCartConfirm, setShowClearCartConfirm] = useState(false);
+  const [showSuccessToast, setShowSuccessToast] = useState(false);
   const [step, setStep] = useState(1);
   const [method, setMethod] = useState<'pickup' | 'delivery'>('pickup');
   const [emirate, setEmirate] = useState('');
@@ -57,8 +59,6 @@ const Cart: React.FC = () => {
   const [mapZoom, setMapZoom] = useState(11);
   const markerRef = useRef<L.Marker>(null);
   const [locationDetails, setLocationDetails] = useState({ street: '', villa: '' });
-
-  // Stock Warning State
   const [warningId, setWarningId] = useState<number | null>(null);
 
   const subtotal = cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
@@ -89,6 +89,15 @@ const Cart: React.FC = () => {
       setWarningId(item.id);
       setTimeout(() => setWarningId(null), 1500);
     }
+  };
+
+  const handleClearCartAction = () => {
+    setShowClearCartConfirm(false);
+    setShowSuccessToast(true);
+    setTimeout(() => {
+      setShowSuccessToast(false);
+      clearCart();
+    }, 1500);
   };
 
   const downloadReceipt = async () => {
@@ -142,6 +151,38 @@ const Cart: React.FC = () => {
 
   return (
     <div className="pt-[64px] pb-20 bg-gray-50/50 min-h-screen">
+      {/* Centered Success Toast */}
+      {showSuccessToast && (
+        <div className="fixed inset-0 z-[200] flex items-center justify-center pointer-events-none">
+          <div className="bg-emerald-500 text-white px-10 py-5 rounded-[24px] shadow-2xl font-black text-xl animate-bounce border-4 border-white">
+            {lang === 'en' ? 'Cart Cleared Successfully!' : 'تم مسح السلة بنجاح!'}
+          </div>
+        </div>
+      )}
+
+      {/* Styled Clear Cart Warning */}
+      {showClearCartConfirm && (
+        <div className="fixed inset-0 z-[150] flex items-center justify-center p-4 bg-purple-950/60 backdrop-blur-md">
+          <div className="bg-white p-10 rounded-[40px] shadow-2xl max-w-sm text-center border-b-8 border-red-500">
+            <div className="w-24 h-24 bg-red-100 text-red-600 rounded-full flex items-center justify-center mx-auto mb-6">
+              <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+              </svg>
+            </div>
+            <h4 className="text-3xl font-black text-gray-900 mb-2">{lang === 'en' ? 'Empty Cart?' : 'مسح السلة؟'}</h4>
+            <p className="text-gray-500 font-bold mb-8">{lang === 'en' ? 'Are you sure? This cannot be undone.' : 'هل أنت متأكد؟ لا يمكن التراجع عن هذا.'}</p>
+            <div className="flex flex-col gap-3">
+              <button onClick={handleClearCartAction} className="w-full bg-red-600 text-white py-5 rounded-2xl font-black uppercase text-lg shadow-xl shadow-red-200">
+                {lang === 'en' ? 'Yes, Clear All' : 'نعم، مسح الكل'}
+              </button>
+              <button onClick={() => setShowClearCartConfirm(false)} className="w-full bg-gray-100 text-gray-900 py-4 rounded-2xl font-black uppercase">
+                {lang === 'en' ? 'Cancel' : 'إلغاء'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="h-[300px] mb-12 bg-gradient-to-br from-purple-950 to-purple-800 flex items-center justify-center text-white text-center">
         <h1 className="text-7xl font-black tracking-tighter">{t('cart')}</h1>
       </div>
@@ -157,8 +198,6 @@ const Cart: React.FC = () => {
             <div className="lg:w-2/3 space-y-6">
               {cart.map(item => (
                 <div key={item.id} className="bg-white p-8 rounded-[32px] shadow-sm border border-purple-50 flex items-center gap-8 relative overflow-hidden">
-                  
-                  {/* Animated Red Square Warning Overlay */}
                   <div className={`absolute inset-0 z-20 flex items-center justify-center p-4 transition-all duration-300 pointer-events-none bg-white/20 backdrop-blur-[2px] ${warningId === item.id ? 'opacity-100 scale-100' : 'opacity-0 scale-90'}`}>
                     <div className="bg-red-600 text-white p-6 rounded-3xl flex items-center justify-center text-center shadow-2xl border-4 border-white/20">
                       <span className="font-black text-lg leading-tight uppercase">
@@ -198,7 +237,17 @@ const Cart: React.FC = () => {
 
             <div className="lg:w-1/3 mt-12 lg:mt-0">
               <div className="bg-white p-10 rounded-[48px] shadow-2xl border border-purple-100 sticky top-32">
-                <h3 className="text-3xl font-black mb-10">{t('orderSummary')}</h3>
+                <div className="flex justify-between items-center mb-10">
+                  <h3 className="text-3xl font-black">{t('orderSummary')}</h3>
+                  <button 
+                    onClick={() => setShowClearCartConfirm(true)}
+                    className="p-3 bg-red-50 text-red-500 rounded-2xl hover:bg-red-500 hover:text-white transition-all shadow-sm group"
+                  >
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                    </svg>
+                  </button>
+                </div>
                 <div className="flex justify-between items-center mb-10 text-2xl">
                    <span className="font-bold">{t('total')}</span>
                    <span className="font-black text-purple-600">{total} AED</span>

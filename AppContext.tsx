@@ -7,7 +7,7 @@ interface AppContextType {
   setLang: (l: Language) => void;
   cart: CartItem[];
   wishlist: Product[];
-  addToCart: (p: Product) => void;
+  addToCart: (p: Product, quantity?: number) => void;
   removeFromCart: (productId: string) => void;
   updateQuantity: (productId: string, delta: number) => void;
   toggleWishlist: (product: Product) => void;
@@ -52,14 +52,20 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     localStorage.setItem('zari_lang', lang);
   }, [lang]);
 
-  const addToCart = (product: Product) => {
-  setCart(prev => {
-    const existing = prev.find(item => item.id === product.id);
-    if (existing) return prev;
-    return [...prev, { ...product, quantity: 1 }];
-  });
-  setWishlist(prev => prev.filter(item => item.id !== product.id));
-};
+  const addToCart = (product: Product, quantity: number = 1) => {
+    setCart(prev => {
+      const existing = prev.find(item => item.id === product.id);
+      if (existing) {
+        return prev.map(item =>
+          item.id === product.id 
+            ? { ...item, quantity: item.quantity + quantity } 
+            : item
+        );
+      }
+      return [...prev, { ...product, quantity }];
+    });
+    setWishlist(prev => prev.filter(item => item.id !== product.id));
+  };
 
   const removeFromCart = (productId: string) => {
     setCart(prev => prev.filter(item => item.id !== productId));
@@ -72,7 +78,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         return newQty > 0 ? { ...item, quantity: newQty } : item;
       }
       return item;
-    } ));
+    }));
   };
 
   const toggleWishlist = (product: Product) => {
@@ -89,15 +95,15 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   };
 
   return (
-  <AppContext.Provider value={{
-    lang, setLang, cart, wishlist, addToCart, removeFromCart, 
-    updateQuantity, toggleWishlist, clearCart, setWishlist, // removed the duplicate 'wishlist'
-    isSearchOpen, setIsSearchOpen, searchQuery, setSearchQuery
-  }}>
-    <div dir={lang === 'ar' ? 'rtl' : 'ltr'} className={lang === 'ar' ? 'font-arabic' : ''}>
-      {children}
-    </div>
-  </AppContext.Provider>
+    <AppContext.Provider value={{
+      lang, setLang, cart, wishlist, addToCart, removeFromCart, 
+      updateQuantity, toggleWishlist, clearCart, setWishlist,
+      isSearchOpen, setIsSearchOpen, searchQuery, setSearchQuery
+    }}>
+      <div dir={lang === 'ar' ? 'rtl' : 'ltr'} className={lang === 'ar' ? 'font-arabic' : ''}>
+        {children}
+      </div>
+    </AppContext.Provider>
   );
 };
 
