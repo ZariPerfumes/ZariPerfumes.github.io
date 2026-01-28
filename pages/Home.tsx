@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useApp } from '../AppContext';
 import { UI_STRINGS } from '../translations';
-import { STORES, PRODUCTS, WORKSHOP } from '../data';
+import { STORES, PRODUCTS, WORKSHOP1, WORKSHOP2 } from '../data';
 import ProductCard from '../components/ProductCard';
 
 const Home: React.FC = () => {
@@ -140,25 +140,26 @@ const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* Workshop */}
+      {/* Workshop 1 */}
+      {WORKSHOP1.available === 'yes' && (
       <section className="py-24 bg-purple-50">
         <div className="container mx-auto px-4">
           <h2 className="text-4xl font-black text-center mb-16">{t('workshops')}</h2>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 items-center bg-white rounded-[40px] overflow-hidden shadow-xl">
             <div className="h-[400px] lg:h-full">
-              <img src={WORKSHOP.image} className="w-full h-full object-cover" alt="Workshop" />
+              <img src={WORKSHOP1.image} className="w-full h-full object-cover" alt="Workshop1" />
             </div>
             <div className="p-10 lg:p-20 space-y-6">
-              <span className="text-purple-600 font-black uppercase tracking-widest text-sm">{lang === 'en' ? WORKSHOP.nameEn : WORKSHOP.nameAr}</span>
+              <span className="text-purple-600 font-black uppercase tracking-widest text-sm">{lang === 'en' ? WORKSHOP1.nameEn : WORKSHOP1.nameAr}</span>
               <h3 className="text-4xl font-black text-gray-900 leading-tight">
-                {lang === 'en' ? WORKSHOP.date : WORKSHOP.dateAr}
+                {lang === 'en' ? WORKSHOP1.date : WORKSHOP1.dateAr}
               </h3>
-              <p className="text-xl text-purple-700 font-black">{lang === 'en' ? WORKSHOP.time : WORKSHOP.timeAr}</p>
+              <p className="text-xl text-purple-700 font-black">{lang === 'en' ? WORKSHOP1.time : WORKSHOP1.timeAr}</p>
               <p className="text-gray-600 text-lg leading-relaxed">
-                {lang === 'en' ? WORKSHOP.detailsEn : WORKSHOP.detailsAr}
+                {lang === 'en' ? WORKSHOP1.detailsEn : WORKSHOP1.detailsAr}
               </p>
               <a 
-                href={WORKSHOP.link.startsWith('http') ? WORKSHOP.link : `https://${WORKSHOP.link}`} 
+                href={WORKSHOP1.link.startsWith('http') ? WORKSHOP1.link : `https://${WORKSHOP1.link}`} 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="inline-block"
@@ -171,6 +172,40 @@ const Home: React.FC = () => {
           </div>
         </div>
       </section>
+      )}
+
+      {/* Workshop 2 */}
+      {WORKSHOP2.available === 'yes' && (
+      <section className="py-24 bg-purple-50">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 items-center bg-white rounded-[40px] overflow-hidden shadow-xl">
+            <div className="h-[400px] lg:h-full">
+              <img src={WORKSHOP2.image} className="w-full h-full object-cover" alt="Workshop2" />
+            </div>
+            <div className="p-10 lg:p-20 space-y-6">
+              <span className="text-purple-600 font-black uppercase tracking-widest text-sm">{lang === 'en' ? WORKSHOP2.nameEn : WORKSHOP2.nameAr}</span>
+              <h3 className="text-4xl font-black text-gray-900 leading-tight">
+                {lang === 'en' ? WORKSHOP2.date : WORKSHOP2.dateAr}
+              </h3>
+              <p className="text-xl text-purple-700 font-black">{lang === 'en' ? WORKSHOP2.time : WORKSHOP2.timeAr}</p>
+              <p className="text-gray-600 text-lg leading-relaxed">
+                {lang === 'en' ? WORKSHOP2.detailsEn : WORKSHOP2.detailsAr}
+              </p>
+              <a 
+                href={WORKSHOP2.link.startsWith('http') ? WORKSHOP2.link : `https://${WORKSHOP2.link}`} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="inline-block"
+              >
+                <button className="bg-purple-600 text-white px-10 py-4 rounded-full font-black hover:bg-purple-700 transition-all shadow-lg">
+                  {t('registerNow')}
+                </button>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+      )}
 
       {/* Featured Stores */}
       <section className="py-24 bg-white">

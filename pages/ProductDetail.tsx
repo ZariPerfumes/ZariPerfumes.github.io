@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { PRODUCTS } from '../data';
 import { useApp } from '../AppContext';
+import { UI_STRINGS } from '../translations'; // Added this
 import ProductCard from '../components/ProductCard';
 
 const ProductDetail: React.FC = () => {
@@ -9,6 +10,9 @@ const ProductDetail: React.FC = () => {
   const navigate = useNavigate();
   const { lang, addToCart, wishlist, toggleWishlist, cart, updateQuantity, removeFromCart } = useApp();
   
+  // Define the translation function
+  const t = (key: string) => UI_STRINGS[key]?.[lang] || key;
+
   const [isSuccess, setIsSuccess] = useState(false);
 
   const product = PRODUCTS.find(p => String(p.id) === String(id));
@@ -79,11 +83,16 @@ const ProductDetail: React.FC = () => {
             </button>
           </div>
 
-          <div className="flex flex-col">
+          <div> {/* Wrapped content in a div for grid layout */}
             <nav className="flex items-center gap-2 text-xs font-black uppercase tracking-widest text-gray-400 mb-6">
               <Link to="/" className="hover:text-purple-600">Zari</Link>
               <span>/</span>
-              <span className="text-purple-600">{categoryLabel}</span>
+              <Link 
+                to={`/explore?category=${encodeURIComponent(product.category)}`} 
+                className="text-purple-600 hover:text-gray-400"
+              >
+                {lang === 'en' ? product.category : t(product.category.toLowerCase())}
+              </Link>
             </nav>
 
             <h1 className="text-4xl md:text-6xl font-black text-gray-900 leading-tight mb-4">{name}</h1>
@@ -122,7 +131,7 @@ const ProductDetail: React.FC = () => {
                   )}
                 </button>
               ) : (
-                <div className="w-full flex items-center justify-between bg-gray-50 rounded-2xl p-2 border border-purple-100 transition-all duration-500 animate-in fade-in slide-in-from-bottom-2">
+                <div className="w-full flex items-center justify-between bg-gray-50 rounded-2xl p-2 border border-purple-100">
                   <button 
                     onClick={() => cartItem.quantity === 1 ? removeFromCart(product.id) : updateQuantity(product.id, -1)}
                     className="w-16 h-16 flex items-center justify-center bg-white rounded-xl shadow-sm hover:text-red-500 transition-all"

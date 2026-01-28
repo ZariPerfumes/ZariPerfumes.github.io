@@ -19,7 +19,23 @@ export interface Store {
   productCount: number;
 }
 
-export interface Workshop {
+export interface Workshop1 {
+  available: string;
+  id: string;
+  nameEn: string;
+  nameAr: string;
+  date: string;
+  dateAr: string;
+  time: string;
+  timeAr: string;
+  detailsEn: string;
+  detailsAr: string;
+  image: string;
+  link: string;
+}
+
+export interface Workshop2 {
+  available: string;
   id: string;
   nameEn: string;
   nameAr: string;

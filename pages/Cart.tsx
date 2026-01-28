@@ -45,7 +45,7 @@ const Cart: React.FC = () => {
   const [showExitConfirm, setShowExitConfirm] = useState(false);
   const [showCancelConfirm, setShowCancelConfirm] = useState(false);
   const [showClearCartConfirm, setShowClearCartConfirm] = useState(false);
-  const [showSuccessToast, setShowSuccessToast] = useState(false);
+  const [isRemoving, setIsRemoving] = useState(false);
   const [step, setStep] = useState(1);
   const [method, setMethod] = useState<'pickup' | 'delivery'>('pickup');
   const [emirate, setEmirate] = useState('');
@@ -72,7 +72,6 @@ const Cart: React.FC = () => {
   const isStep1Valid = method === 'pickup' || (emirate !== '' && city !== '');
   const isStep2Valid = validatePhone(phone) && validateEmail(email) && (method === 'pickup' || (locationDetails.street !== '' && locationDetails.villa !== ''));
 
-  // Simple recommendation logic: Top 4 products not in cart
   const recommendations = useMemo(() => {
     return PRODUCTS
       .filter(p => !cart.some(item => item.id === p.id))
@@ -100,12 +99,12 @@ const Cart: React.FC = () => {
   };
 
   const handleClearCartAction = () => {
-    setShowClearCartConfirm(false);
-    setShowSuccessToast(true);
+    setIsRemoving(true);
     setTimeout(() => {
-      setShowSuccessToast(false);
       clearCart();
-    }, 1500);
+      setShowClearCartConfirm(false);
+      setIsRemoving(false);
+    }, 300);
   };
 
   const downloadReceipt = async () => {
@@ -159,30 +158,22 @@ const Cart: React.FC = () => {
 
   return (
     <div className="pt-[64px] pb-20 bg-gray-50/50 min-h-screen">
-      {showSuccessToast && (
-        <div className="fixed inset-0 z-[200] flex items-center justify-center pointer-events-none">
-          <div className="bg-emerald-500 text-white px-10 py-5 rounded-[24px] shadow-2xl font-black text-xl animate-bounce border-4 border-white">
-            {lang === 'en' ? 'Cart Cleared Successfully!' : 'تم مسح السلة بنجاح!'}
-          </div>
-        </div>
-      )}
-
       {showClearCartConfirm && (
-        <div className="fixed inset-0 z-[150] flex items-center justify-center p-4 bg-purple-950/60 backdrop-blur-md">
-          <div className="bg-white p-10 rounded-[40px] shadow-2xl max-w-sm text-center border-b-8 border-red-500">
-            <div className="w-24 h-24 bg-red-100 text-red-600 rounded-full flex items-center justify-center mx-auto mb-6">
-              <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+        <div className="fixed inset-0 z-[150] flex items-center justify-center p-6 bg-black/40 backdrop-blur-xl transition-all duration-300">
+          <div className={`bg-white/90 backdrop-blur-2xl p-12 rounded-[48px] shadow-[0_32px_64px_-15px_rgba(0,0,0,0.2)] max-w-md w-full text-center border border-white/40 transition-all duration-300 ${isRemoving ? 'scale-90 opacity-0' : 'scale-100 opacity-100'}`}>
+            <div className="w-20 h-20 bg-red-50 text-red-500 rounded-full flex items-center justify-center mx-auto mb-8 ring-8 ring-red-50/50">
+              <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
               </svg>
             </div>
-            <h4 className="text-3xl font-black text-gray-900 mb-2">{lang === 'en' ? 'Empty Cart?' : 'مسح السلة؟'}</h4>
-            <p className="text-gray-500 font-bold mb-8">{lang === 'en' ? 'Are you sure? This cannot be undone.' : 'هل أنت متأكد؟ لا يمكن التراجع عن هذا.'}</p>
-            <div className="flex flex-col gap-3">
-              <button onClick={handleClearCartAction} className="w-full bg-red-600 text-white py-5 rounded-2xl font-black uppercase text-lg shadow-xl shadow-red-200">
+            <h4 className="text-3xl font-black text-gray-900 mb-3 tracking-tight">{lang === 'en' ? 'Clear your cart?' : 'مسح السلة؟'}</h4>
+            <p className="text-gray-500 font-medium text-lg mb-10 leading-relaxed">{lang === 'en' ? 'This will remove all items from your collection. This action is permanent.' : 'سيؤدي هذا إلى إزالة جميع العناصر. هذا الإجراء دائم.'}</p>
+            <div className="flex flex-col gap-4">
+              <button onClick={handleClearCartAction} className="w-full bg-gray-900 text-white py-5 rounded-3xl font-bold text-lg hover:bg-red-600 transition-colors duration-300 shadow-xl shadow-gray-200">
                 {lang === 'en' ? 'Yes, Clear All' : 'نعم، مسح الكل'}
               </button>
-              <button onClick={() => setShowClearCartConfirm(false)} className="w-full bg-gray-100 text-gray-900 py-4 rounded-2xl font-black uppercase">
-                {lang === 'en' ? 'Cancel' : 'إلغاء'}
+              <button onClick={() => setShowClearCartConfirm(false)} className="w-full text-gray-400 py-2 font-bold hover:text-gray-900 transition-colors">
+                {lang === 'en' ? 'Keep Items' : 'الاحتفاظ بالمنتجات'}
               </button>
             </div>
           </div>
@@ -264,7 +255,6 @@ const Cart: React.FC = () => {
               </div>
             </div>
 
-            {/* Recommended for You Section */}
             <div className="mt-24 mb-12">
               <div className="flex justify-between items-end mb-8">
                 <div>

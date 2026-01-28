@@ -1,5 +1,5 @@
 
-import { Product, Store, Workshop, DeliveryCost } from './types';
+import { Product, Store, Workshop1, Workshop2, DeliveryCost } from './types';
 
 export const STORES: Store[] = [
   { id: 'ajmal', nameEn: 'Ajmal', nameAr: 'أجمل', image: 'images/stores/ajmal.jpg', productCount: 13 },
@@ -52,7 +52,8 @@ export const PRODUCTS: Product[] = [
   { id: 'yn4', storeId: 'yunus', nameEn: 'Sheikah Fatima SF', nameAr: 'الشيخة فاطمه SF', price: 280, category: 'Perfume', image: 'images/products/yn4.jpg', stock: 10 },
 ];
 
-export const WORKSHOP: Workshop = {
+export const WORKSHOP1: Workshop1 = {
+  available: 'yes',
   id: 'w1',
   nameEn: 'Perfume Blending Workshop',
   nameAr: 'ورشة عمل تركيب العطور',
@@ -62,7 +63,22 @@ export const WORKSHOP: Workshop = {
   timeAr: '٦:٠٠ مساءً - ٨:٠٠ مساءً',
   detailsEn: 'Join us for an exclusive evening of fragrance discovery...',
   detailsAr: 'انضم إلينا في أمسية حصرية لاكتشاف العطور. تعلم فن صناعة العطور من الخبراء وابتكر رائحتك الخاصة لتأخذها معك إلى المنزل.',
-  image: 'images/workshop.jpg',
+  image: 'images/workshop1.jpg',
+  link: 'https://zariperfumes.github.io/#/404'
+};
+
+export const WORKSHOP2: Workshop2 = {
+  available: 'yes',
+  id: 'w2',
+  nameEn: 'Perfume Blending Workshop',
+  nameAr: 'ورشة عمل تركيب العطور',
+  date: 'October 24, 2025',
+  dateAr: '٢٤ أكتوبر ٢٠٢٥',
+  time: '6:00 PM - 8:00 PM',
+  timeAr: '٦:٠٠ مساءً - ٨:٠٠ مساءً',
+  detailsEn: 'Join us for an exclusive evening of fragrance discovery...',
+  detailsAr: 'انضم إلينا في أمسية حصرية لاكتشاف العطور. تعلم فن صناعة العطور من الخبراء وابتكر رائحتك الخاصة لتأخذها معك إلى المنزل.',
+  image: 'images/workshop2.jpg',
   link: 'https://zariperfumes.github.io/#/404'
 };
 
