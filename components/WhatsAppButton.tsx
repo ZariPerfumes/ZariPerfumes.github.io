@@ -1,7 +1,9 @@
+import { useState } from 'react';
 import { useApp } from '../AppContext';
 
 export default function WhatsAppButton() {
   const { lang } = useApp();
+  const [showTooltip, setShowTooltip] = useState(false);
   const whatsappUrl = "https://wa.me/971588537024";
 
   return (
@@ -9,50 +11,25 @@ export default function WhatsAppButton() {
       href={whatsappUrl}
       target="_blank"
       rel="noopener noreferrer"
-      style={{
-        position: 'fixed',
-        bottom: '30px',
-        right: '30px',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        gap: '8px',
-        zIndex: 1000,
-        textDecoration: 'none',
-        transition: 'transform 0.3s ease',
-      }}
-      onMouseEnter={(e) => (e.currentTarget.style.transform = 'translateY(-5px)')}
-      onMouseLeave={(e) => (e.currentTarget.style.transform = 'translateY(0)')}
+      onMouseEnter={() => setShowTooltip(true)}
+      onMouseLeave={() => setShowTooltip(false)}
+      onClick={() => setShowTooltip(!showTooltip)}
+      className={`group fixed bottom-6 right-6 z-[60] flex items-center gap-3 ${
+        lang === 'ar' ? 'flex-row-reverse' : 'flex-row'
+      }`}
     >
-      <span style={{ 
-        fontFamily: 'serif',
-        letterSpacing: '1px',
-        fontSize: '11px', 
-        color: '#000000',
-        textTransform: 'uppercase',
-        fontWeight: '500',
-        textShadow: '0 1px 2px rgba(0,0,0,0.1)'
-      }}>
+      <span className={`transition-opacity duration-300 bg-black/70 text-white px-3 py-1 rounded-lg text-sm backdrop-blur-sm whitespace-nowrap ${
+        showTooltip ? 'opacity-100' : 'opacity-0'
+      }`}>
         {lang === 'en' ? 'Need Help?' : 'تحتاج مساعدة؟'}
       </span>
-      <div style={{
-        width: '55px',
-        height: '55px',
-        backgroundColor: '#1a1a1a',
-        borderRadius: '50%',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        boxShadow: '0 10px 25px rgba(0,0,0,0.3)',
-        border: '1px solid #9333EA'
-      }}>
+      <div className="p-4 bg-purple-600 text-white rounded-2xl shadow-2xl transition-all duration-300 hover:bg-purple-700 active:scale-90 flex items-center justify-center">
         <svg 
-          width="24" 
-          height="24" 
-          viewBox="0 0 24 24" 
+          className="w-6 h-6" 
           fill="none" 
-          stroke="#9333EA" 
-          strokeWidth="1.5" 
+          stroke="currentColor" 
+          viewBox="0 0 24 24" 
+          strokeWidth="2.5" 
           strokeLinecap="round" 
           strokeLinejoin="round"
         >
