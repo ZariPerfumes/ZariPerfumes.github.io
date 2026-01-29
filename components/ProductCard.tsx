@@ -5,10 +5,21 @@ import { useApp } from '../AppContext';
 
 interface Props {
   product: Product;
+  isRecentlyViewed?: boolean;
 }
 
-const ProductCard: React.FC<Props> = ({ product }) => {
-  const { lang, cart, wishlist, addToCart, updateQuantity, removeFromCart, toggleWishlist } = useApp();
+const ProductCard: React.FC<Props> = ({ product, isRecentlyViewed }) => {
+  const { 
+    lang, 
+    cart, 
+    wishlist, 
+    addToCart, 
+    updateQuantity, 
+    removeFromCart, 
+    toggleWishlist,
+    addToRecentlyViewed 
+  } = useApp();
+  
   const [showToast, setShowToast] = useState(false);
   
   const cartItem = cart.find(item => item.id === product.id);
@@ -38,7 +49,11 @@ const ProductCard: React.FC<Props> = ({ product }) => {
   return (
     <div className={`bg-white rounded-[24px] shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden group border border-purple-50 flex flex-col h-full relative ${isOutOfStock ? 'grayscale-[0.5]' : ''}`}>
       
-      <Link to={`/product/${product.id}`} className="flex-grow flex flex-col">
+      <Link 
+        to={`/product/${product.id}`} 
+        className="flex-grow flex flex-col"
+        onClick={() => addToRecentlyViewed(product)}
+      >
         <div className="relative aspect-square overflow-hidden bg-gray-50">
           <img 
             src={product.image} 
@@ -46,7 +61,6 @@ const ProductCard: React.FC<Props> = ({ product }) => {
             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
           />
 
-          {/* Animated Red Square Warning */}
           <div className={`absolute inset-0 z-20 flex items-center justify-center p-6 transition-all duration-300 pointer-events-none ${showToast ? 'opacity-100 scale-100' : 'opacity-0 scale-90'}`}>
             <div className="bg-red-600 text-white p-6 rounded-3xl flex items-center justify-center text-center shadow-2xl border-4 border-white/20">
               <span className="font-black text-lg leading-tight uppercase">
@@ -55,11 +69,19 @@ const ProductCard: React.FC<Props> = ({ product }) => {
             </div>
           </div>
           
+          {/* Viewed Badge - Left side */}
+          {isRecentlyViewed && (
+            <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider text-purple-600 shadow-sm z-10">
+              {lang === 'en' ? 'Viewed' : 'شوهد'}
+            </div>
+          )}
+
+          {/* Category Badge - Right side */}
           <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider text-purple-600 shadow-sm">
             {product.category}
           </div>
 
-          {!isOutOfStock && isLowStock && (
+          {!isOutOfStock && isLowStock && !isRecentlyViewed && (
             <div className="absolute top-4 left-4 bg-orange-500 text-white px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase shadow-lg animate-pulse">
               {lang === 'en' ? `Only ${product.stock} left` : `بقي ${product.stock} فقط`}
             </div>
@@ -141,6 +163,7 @@ const ProductCard: React.FC<Props> = ({ product }) => {
             <button 
               onClick={(e) => {
                 e.preventDefault();
+                e.stopPropagation();
                 cartItem.quantity === 1 ? removeFromCart(product.id) : updateQuantity(product.id, -1);
               }}
               className={`p-2.5 rounded-xl transition-colors flex items-center justify-center ${

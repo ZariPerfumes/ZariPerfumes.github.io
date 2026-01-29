@@ -1,16 +1,18 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { Language, CartItem, Product } from './types';
-import { PRODUCTS } from './data';
 
 interface AppContextType {
   lang: Language;
   setLang: (l: Language) => void;
   cart: CartItem[];
   wishlist: Product[];
+  recentlyViewed: Product[];
   addToCart: (p: Product, quantity?: number) => void;
   removeFromCart: (productId: string) => void;
   updateQuantity: (productId: string, delta: number) => void;
   toggleWishlist: (product: Product) => void;
+  addToRecentlyViewed: (product: Product) => void;
+  clearRecentlyViewed: () => void;
   clearCart: () => void;
   isSearchOpen: boolean;
   setIsSearchOpen: (b: boolean) => void;
@@ -37,6 +39,11 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     return savedWishlist ? JSON.parse(savedWishlist) : [];
   });
 
+  const [recentlyViewed, setRecentlyViewed] = useState<Product[]>(() => {
+    const saved = localStorage.getItem('zari_recent');
+    return saved ? JSON.parse(saved) : [];
+  });
+
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -47,6 +54,10 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   useEffect(() => {
     localStorage.setItem('zari_wishlist', JSON.stringify(wishlist));
   }, [wishlist]);
+
+  useEffect(() => {
+    localStorage.setItem('zari_recent', JSON.stringify(recentlyViewed));
+  }, [recentlyViewed]);
 
   useEffect(() => {
     localStorage.setItem('zari_lang', lang);
@@ -89,6 +100,18 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     });
   };
 
+  const addToRecentlyViewed = (product: Product) => {
+    setRecentlyViewed(prev => {
+      const filtered = prev.filter(p => p.id !== product.id);
+      return [product, ...filtered].slice(0, 8);
+    });
+  };
+
+  const clearRecentlyViewed = () => {
+    setRecentlyViewed([]);
+    localStorage.removeItem('zari_recent');
+  };
+
   const clearCart = () => {
     setCart([]);
     localStorage.removeItem('zari_cart');
@@ -96,9 +119,9 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
 
   return (
     <AppContext.Provider value={{
-      lang, setLang, cart, wishlist, addToCart, removeFromCart, 
-      updateQuantity, toggleWishlist, clearCart, setWishlist,
-      isSearchOpen, setIsSearchOpen, searchQuery, setSearchQuery
+      lang, setLang, cart, wishlist, recentlyViewed, addToCart, removeFromCart, 
+      updateQuantity, toggleWishlist, addToRecentlyViewed, clearRecentlyViewed, 
+      clearCart, setWishlist, isSearchOpen, setIsSearchOpen, searchQuery, setSearchQuery
     }}>
       <div dir={lang === 'ar' ? 'rtl' : 'ltr'} className={lang === 'ar' ? 'font-arabic' : ''}>
         {children}

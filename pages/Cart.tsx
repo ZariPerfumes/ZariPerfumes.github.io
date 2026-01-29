@@ -36,7 +36,7 @@ function ChangeView({ center, zoom }: { center: [number, number], zoom: number }
 }
 
 const Cart: React.FC = () => {
-  const { lang, cart, updateQuantity, removeFromCart, clearCart } = useApp();
+  const { lang, cart, updateQuantity, removeFromCart, clearCart, recentlyViewed, clearRecentlyViewed } = useApp();
   const navigate = useNavigate();
   const receiptRef = useRef<HTMLDivElement>(null);
   const t = (key: string) => UI_STRINGS[key]?.[lang] || key;
@@ -77,6 +77,12 @@ const Cart: React.FC = () => {
       .filter(p => !cart.some(item => item.id === p.id))
       .slice(0, 4);
   }, [cart]);
+
+  const viewedItems = useMemo(() => {
+    return recentlyViewed
+      .filter(p => !cart.some(item => item.id === p.id))
+      .slice(0, 4);
+  }, [recentlyViewed, cart]);
 
   useEffect(() => {
     document.title = lang === 'en' ? 'Zari Perfumes | Cart' : 'عطور زاري | السلة';
@@ -157,7 +163,7 @@ const Cart: React.FC = () => {
   };
 
   return (
-    <div className="pt-[64px] pb-20 bg-gray-50/50 min-h-screen">
+    <div className="pt-[64px] pb-20 bg-gray-50/50 min-h-screen max-w-[1600px] mx-auto scale-[0.98] origin-top transition-transform duration-500">
       {showClearCartConfirm && (
         <div className="fixed inset-0 z-[150] flex items-center justify-center p-6 bg-black/40 backdrop-blur-xl transition-all duration-300">
           <div className={`bg-white/90 backdrop-blur-2xl p-12 rounded-[48px] shadow-[0_32px_64px_-15px_rgba(0,0,0,0.2)] max-w-md w-full text-center border border-white/40 transition-all duration-300 ${isRemoving ? 'scale-90 opacity-0' : 'scale-100 opacity-100'}`}>
@@ -180,11 +186,11 @@ const Cart: React.FC = () => {
         </div>
       )}
 
-      <div className="h-[300px] mb-12 bg-gradient-to-br from-purple-950 to-purple-800 flex items-center justify-center text-white text-center">
-        <h1 className="text-7xl font-black tracking-tighter">{t('cart')}</h1>
+      <div className="h-[250px] mb-12 bg-gradient-to-br from-purple-950 to-purple-800 flex items-center justify-center text-white text-center rounded-b-[60px] shadow-inner">
+        <h1 className="text-6xl font-black tracking-tighter">{t('cart')}</h1>
       </div>
 
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-6">
         {cart.length === 0 && !showCheckout ? (
           <div className="py-20 text-center flex flex-col items-center justify-center">
             <h2 className="text-4xl font-black mb-6 text-purple-900">{t('emptyCart')}</h2>
@@ -276,6 +282,33 @@ const Cart: React.FC = () => {
                 ))}
               </div>
             </div>
+
+            {viewedItems.length > 0 && (
+              <div className="mt-24 mb-12">
+                <div className="flex justify-between items-end mb-8">
+                  <div>
+                    <h2 className="text-4xl font-black text-purple-900 uppercase italic">
+                      {lang === 'en' ? 'Recently Viewed' : 'شوهد مؤخراً'}
+                    </h2>
+                    <div className="h-1.5 w-24 bg-purple-600 mt-2 rounded-full"></div>
+                  </div>
+                  <button 
+                    onClick={clearRecentlyViewed}
+                    className="text-purple-600 font-black text-sm uppercase tracking-widest hover:underline flex items-center gap-2 mb-2"
+                  >
+                    {lang === 'en' ? 'Clear Viewed' : 'مسح السجل'}
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                  </button>
+                </div>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                  {viewedItems.map(product => (
+                    <ProductCard key={product.id} product={product} isRecentlyViewed={true} />
+                  ))}
+                </div>
+              </div>
+            )}
           </>
         )}
       </div>
